@@ -141,146 +141,151 @@ class _HomePageState extends State<HomePage> {
             ),
 
             SliverToBoxAdapter(
-              child: Column(
-                children: [
-                  _searchQuery.isNotEmpty
-                      ? ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: _searchQuery.isEmpty
-                              ? 0
-                              : _workerProvider.typeAndImageList.length,
-                          itemBuilder: (context, index) {
-                            final worker =
-                                _workerProvider.typeAndImageList[index];
-                            if (worker.name!
-                                .toLowerCase()
-                                .contains(_searchQuery.toLowerCase())) {
-                              return InkWell(
-                                onTap: () {
-                                  Navigator.pushNamed(
-                                      context, ShowWorkerPage.routeName,
-                                      arguments: [
-                                        worker.name,
-                                      ]);
-                                },
-                                child: Card(
-                                  child: ListTile(
-                                    leading: CircleAvatar(
-                                      backgroundImage: NetworkImage(
-                                          "${worker.imageDownloadUrl}"),
-                                    ),
-                                    title: Text("${worker.name}"),
-                                  ),
-                                ),
-                              );
-                            } else {
-                              return Container();
-                            }
-                          },
-                        )
-                      : AspectRatio(
-                          aspectRatio: 3.5,
-                          child: CarouselSlider(
-                              items: _workerProvider.carouselSliderimg
-                                  .map((item) => Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 3, right: 3),
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                              image: DecorationImage(
-                                                  image: NetworkImage(item),
-                                                  fit: BoxFit.fitWidth)),
-                                        ),
-                                      ))
-                                  .toList(),
-                              options: CarouselOptions(
-                                  autoPlay: true,
-                                  enlargeCenterPage: true,
-                                  viewportFraction: 0.8,
-                                  enlargeStrategy:
-                                      CenterPageEnlargeStrategy.height,
-                                  onPageChanged:
-                                      (val, carouselPageChangedReason) {
-                                    setState(() {
-                                      _dotPosition = val;
-                                    });
-                                  })),
-                        ),
-                  _searchQuery.isEmpty
-                      ? DotsIndicator(
-                          dotsCount:
-                              _workerProvider.carouselSliderimg.length == 0
-                                  ? 1
-                                  : _workerProvider.carouselSliderimg.length,
-                          position: _dotPosition,
-                          decorator: DotsDecorator(
-                            activeColor: btncolor,
-                            color: btncolor.withOpacity(0.5),
-                            spacing: EdgeInsets.all(2),
-                            activeSize: Size(8, 8),
-                            size: Size(6, 6),
-                          ),
-                        )
-                      : SizedBox(),
-                  _searchQuery.isEmpty
-                      ? Container(
-                          width: double.infinity,
-                          child: GridView.builder(
-                            physics: NeverScrollableScrollPhysics(),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10.0.w),
+                child: Column(
+                  children: [
+                    _searchQuery.isNotEmpty
+                        ? ListView.builder(
                             shrinkWrap: true,
-                            itemCount: _workerProvider.typeAndImageList.length,
+                            itemCount: _searchQuery.isEmpty
+                                ? 0
+                                : _workerProvider.typeAndImageList.length,
                             itemBuilder: (context, index) {
-                              return InkWell(
-                                onTap: () {
-                                  Navigator.pushNamed(context,
-                                      ShowWorkerPage.routeName, arguments: [
-                                    _workerProvider.typeAndImageList[index].name
-                                  ]);
-                                },
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15),
-                                    color: Colors.blueGrey,
-                                    image: DecorationImage(
-                                      image: NetworkImage(
-                                        _workerProvider.typeAndImageList[index]
-                                            .imageDownloadUrl!,
+                              final worker =
+                                  _workerProvider.typeAndImageList[index];
+                              if (worker.name!
+                                  .toLowerCase()
+                                  .contains(_searchQuery.toLowerCase())) {
+                                return InkWell(
+                                  onTap: () {
+                                    Navigator.pushNamed(
+                                        context, ShowWorkerPage.routeName,
+                                        arguments: [
+                                          worker.name,
+                                        ]);
+                                  },
+                                  child: Card(
+                                    child: ListTile(
+                                      leading: CircleAvatar(
+                                        backgroundImage: NetworkImage(
+                                            "${worker.imageDownloadUrl}"),
                                       ),
-                                      fit: BoxFit.cover,
+                                      title: Text("${worker.name}"),
                                     ),
                                   ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          color: btncolor,
-                                          borderRadius: BorderRadius.only(
-                                            bottomRight: Radius.circular(15),
-                                            bottomLeft: Radius.circular(15),
-                                          ),
-                                        ),
-                                        child: Center(
-                                            child: Text(_workerProvider
-                                                .typeAndImageList[index]
-                                                .name!)),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              );
+                                );
+                              } else {
+                                return Container();
+                              }
                             },
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisSpacing: 10,
-                              mainAxisSpacing: 10,
-                              crossAxisCount: 3,
-                              childAspectRatio: 1.5,
-                            ),
+                          )
+                        : AspectRatio(
+                            aspectRatio: 3,
+                            child: CarouselSlider(
+                                items: _workerProvider.carouselSliderimg
+                                    .map((item) => Container(
+                                          margin: EdgeInsets.symmetric(
+                                              horizontal: 40.0),
+                                          child: Image.network(
+                                            item,
+                                            fit: BoxFit.fitWidth,
+                                          ),
+                                        ))
+                                    .toList(),
+                                options: CarouselOptions(
+                                    autoPlay: true,
+                                    enlargeCenterPage: true,
+                                    viewportFraction: 0.8,
+                                    enlargeStrategy:
+                                        CenterPageEnlargeStrategy.height,
+                                    onPageChanged:
+                                        (val, carouselPageChangedReason) {
+                                      setState(() {
+                                        _dotPosition = val;
+                                      });
+                                    })),
                           ),
-                        )
-                      : SizedBox()
-                ],
+                    _searchQuery.isEmpty
+                        ? DotsIndicator(
+                            dotsCount:
+                                _workerProvider.carouselSliderimg.length == 0
+                                    ? 1
+                                    : _workerProvider.carouselSliderimg.length,
+                            position: _dotPosition,
+                            decorator: DotsDecorator(
+                              activeColor: btncolor,
+                              color: btncolor.withOpacity(0.5),
+                              spacing: EdgeInsets.all(2),
+                              activeSize: Size(8, 8),
+                              size: Size(6, 6),
+                            ),
+                          )
+                        : SizedBox(),
+                    _searchQuery.isEmpty
+                        ? Container(
+                            width: double.infinity,
+                            child: GridView.builder(
+                              physics: NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount:
+                                  _workerProvider.typeAndImageList.length,
+                              itemBuilder: (context, index) {
+                                return InkWell(
+                                  onTap: () {
+                                    Navigator.pushNamed(
+                                        context, ShowWorkerPage.routeName,
+                                        arguments: [
+                                          _workerProvider
+                                              .typeAndImageList[index].name
+                                        ]);
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(15),
+                                      color: Colors.blueGrey,
+                                      image: DecorationImage(
+                                        image: NetworkImage(
+                                          _workerProvider
+                                              .typeAndImageList[index]
+                                              .imageDownloadUrl!,
+                                        ),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Container(
+                                          decoration: BoxDecoration(
+                                            color: btncolor,
+                                            borderRadius: BorderRadius.only(
+                                              bottomRight: Radius.circular(15),
+                                              bottomLeft: Radius.circular(15),
+                                            ),
+                                          ),
+                                          child: Center(
+                                              child: Text(_workerProvider
+                                                  .typeAndImageList[index]
+                                                  .name!)),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisSpacing: 10,
+                                mainAxisSpacing: 10,
+                                crossAxisCount: 3,
+                                childAspectRatio: 1.5,
+                              ),
+                            ),
+                          )
+                        : SizedBox()
+                  ],
+                ),
               ),
             ),
           ],

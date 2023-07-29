@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fix_masters/auth/auth_service.dart';
+import 'package:fix_masters/db/db_helper.dart';
 import 'package:fix_masters/models/user_model.dart';
 import 'package:fix_masters/pages/home_page.dart';
 import 'package:fix_masters/pages/worker_or_user_page.dart';
@@ -33,6 +34,7 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
   AuthService authClass = AuthService();
   String verificationIdFinal = "";
   String smsCode = "";
+
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
@@ -318,31 +320,30 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
       AuthCredential credential = PhoneAuthProvider.credential(
           verificationId: verificationId, smsCode: smsCode);
 
-      UserCredential userCredential =
+      final UserCredential authResult =
           await _auth.signInWithCredential(credential);
+      final User? user = authResult.user;
 
-      if (userCredential.user != null) {
-        User? user = userCredential.user;
-        UserModel userModel = UserModel(
-          userId: user!.uid,
-          phone: user.phoneNumber!,
-          userCreationTime: user.metadata.creationTime!.millisecondsSinceEpoch,
-        );
+      if (user != null) {
+        bool isFirstTimeSignIn = await DBHelper.isUserExists(user.uid);
 
-        // Save user data in your user collection
-        Provider.of<UserProvider>(context, listen: false).addUser(userModel);
+        if (!isFirstTimeSignIn) {
+          // Add the user's data to the database using UserModel.
+          UserModel userModel = UserModel(
+            userId: user.uid,
+            phone: user.phoneNumber,
+            userCreationTime:
+                user.metadata.creationTime!.millisecondsSinceEpoch,
+          );
 
-        Navigator.pushReplacementNamed(context, WorkerOrUser.routeName);
-      } else {
+          // Save user data in your user collection
+          Provider.of<UserProvider>(context, listen: false).addUser(userModel);
+          Navigator.pushReplacementNamed(context, WorkerOrUser.routeName);
+        }
+
+        // Proceed to the main screen or any other screen.
         AuthService.roleBaseLogin(context);
-        showToastMsg("Login Successfully");
       }
-
-      // Navigator.pushReplacementNamed(context, WorkerOrUser.routeName);
-      // Navigator.pushAndRemoveUntil(
-      //     context,
-      //     MaterialPageRoute(builder: (builder) => HomePage()),
-      //     (route) => false);
 
       showSnackBar(context, "logged In");
     } catch (e) {

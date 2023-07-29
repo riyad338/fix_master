@@ -107,8 +107,8 @@ class _MainDrawerState extends State<MainDrawer> {
           onTap: () async {
             await AuthService.logout().then((_) =>
                 Navigator.pushReplacementNamed(context, LoginPage.routeName));
-            await _googleSignIn.signOut();
             showToastMsg("Logout Successfully");
+            await _googleSignIn.signOut();
           },
           leading: Icon(Icons.logout),
           title: Text('Logout'),

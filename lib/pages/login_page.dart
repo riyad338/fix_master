@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fix_masters/auth/auth_service.dart';
+import 'package:fix_masters/db/db_helper.dart';
 import 'package:fix_masters/models/user_model.dart';
 import 'package:fix_masters/pages/email_verification_page.dart';
 import 'package:fix_masters/pages/home_page.dart';
@@ -32,6 +33,13 @@ class _LoginPageState extends State<LoginPage> {
   String _errMsg = '';
   AuthService authService = AuthService();
   bool isLogin = true;
+  late UserProvider _userProvider;
+  @override
+  void didChangeDependencies() {
+    _userProvider = Provider.of<UserProvider>(context);
+
+    super.didChangeDependencies();
+  }
 
   @override
   void dispose() {
@@ -99,7 +107,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   InkWell(
                     onTap: () async {
-                      await handleSignIn();
+                      await _handleSignIn();
                     },
                     child: Container(
                       height: 50.h,
@@ -350,44 +358,88 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  GoogleSignIn googleSignInf = GoogleSignIn();
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  Future<User?> handleSignIn() async {
+  Future<void> _handleSignIn() async {
     try {
-      GoogleSignInAccount? googleSignInAccount = await googleSignInf.signIn();
-      if (googleSignInAccount != null) {
-        GoogleSignInAuthentication googleAuth =
-            await googleSignInAccount.authentication;
+      final GoogleSignInAccount? googleSignInAccount =
+          await googleSignInf.signIn();
 
-        AuthCredential credential = GoogleAuthProvider.credential(
+      if (googleSignInAccount != null) {
+        final GoogleSignInAuthentication googleAuth =
+            await googleSignInAccount.authentication;
+        final AuthCredential credential = GoogleAuthProvider.credential(
           accessToken: googleAuth.accessToken,
           idToken: googleAuth.idToken,
         );
 
-        UserCredential userCredential =
+        final UserCredential authResult =
             await _auth.signInWithCredential(credential);
+        final User? user = authResult.user;
 
-        if (userCredential.user != null) {
-          User? user = userCredential.user;
-          UserModel userModel = UserModel(
-            userId: user!.uid,
-            email: user.email!,
-            userCreationTime:
-                user.metadata.creationTime!.millisecondsSinceEpoch,
-          );
-          Provider.of<UserProvider>(context, listen: false).addUser(userModel);
-          Navigator.pushReplacementNamed(context, WorkerOrUser.routeName);
-        } else {
+        if (user != null) {
+          bool isFirstTimeSignIn = await DBHelper.isUserExists(user.uid);
+
+          if (!isFirstTimeSignIn) {
+            // Add the user's data to the database using UserModel.
+            UserModel userModel = UserModel(
+              userId: user.uid,
+              email: user.email!,
+              userCreationTime:
+                  user.metadata.creationTime!.millisecondsSinceEpoch,
+            );
+
+            // Save user data in your user collection
+            Provider.of<UserProvider>(context, listen: false)
+                .addUser(userModel);
+            Navigator.pushReplacementNamed(context, WorkerOrUser.routeName);
+          }
+
+          // Proceed to the main screen or any other screen.
           AuthService.roleBaseLogin(context);
-          showToastMsg("Login Successfully");
-
-          // Save user data in your user collection
-
         }
       }
     } catch (e) {
-      print(e);
+      print("Error during Google Sign-In: $e");
     }
-    return null;
   }
+
+  GoogleSignIn googleSignInf = GoogleSignIn();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  // Future<User?> handleSignIn() async {
+  //   try {
+  //     GoogleSignInAccount? googleSignInAccount = await googleSignInf.signIn();
+  //     if (googleSignInAccount != null) {
+  //       GoogleSignInAuthentication googleAuth =
+  //           await googleSignInAccount.authentication;
+  //
+  //       AuthCredential credential = GoogleAuthProvider.credential(
+  //         accessToken: googleAuth.accessToken,
+  //         idToken: googleAuth.idToken,
+  //       );
+  //
+  //       UserCredential userCredential =
+  //           await _auth.signInWithCredential(credential);
+  //
+  //       if (userCredential.user != null) {
+  //         User? user = userCredential.user;
+  //         UserModel userModel = UserModel(
+  //           userId: user!.uid,
+  //           email: user.email!,
+  //           userCreationTime:
+  //               user.metadata.creationTime!.millisecondsSinceEpoch,
+  //         );
+  //         Provider.of<UserProvider>(context, listen: false).addUser(userModel);
+  //         Navigator.pushReplacementNamed(context, WorkerOrUser.routeName);
+  //       } else {
+  //         AuthService.roleBaseLogin(context);
+  //         showToastMsg("Login Successfully");
+  //
+  //         // Save user data in your user collection
+  //
+  //       }
+  //     }
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  //   return null;
+  // }
 }

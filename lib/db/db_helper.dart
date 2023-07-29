@@ -88,4 +88,10 @@ class DBHelper {
         .doc(userId)
         .update({'picture': image});
   }
+
+  static Future<bool> isUserExists(String userId) async {
+    final userSnapshot =
+        await _db.collection(_collectionUser).doc(userId).get();
+    return userSnapshot.exists;
+  }
 }

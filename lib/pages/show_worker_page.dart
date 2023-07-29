@@ -135,32 +135,35 @@ class _ShowWorkerPageState extends State<ShowWorkerPage> {
           ),
 
           SliverToBoxAdapter(
-            child: _workLocation == null
-                ? _workerProvider.workerList.isEmpty
-                    ? Center(child: Text("No $name available"))
-                    : GridView.count(
-                        physics: NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 2,
-                        crossAxisSpacing: 2,
-                        childAspectRatio: 1,
-                        children: _workerProvider.workerList
-                            .map((e) => Workers(e))
-                            .toList(),
-                      )
-                : _workerProvider.workerLocationList.isEmpty
-                    ? Center(child: Text("No $name available"))
-                    : GridView.count(
-                        shrinkWrap: true,
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 2,
-                        crossAxisSpacing: 2,
-                        childAspectRatio: 1,
-                        children: _workerProvider.workerLocationList
-                            .map((e) => WorkerSearchByLocation(e))
-                            .toList(),
-                      ),
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: _workLocation == null
+                  ? _workerProvider.workerList.isEmpty
+                      ? Center(child: Text("No $name available"))
+                      : GridView.count(
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 2,
+                          crossAxisSpacing: 2,
+                          childAspectRatio: 1,
+                          children: _workerProvider.workerList
+                              .map((e) => Workers(e))
+                              .toList(),
+                        )
+                  : _workerProvider.workerLocationList.isEmpty
+                      ? Center(child: Text("No $name available"))
+                      : GridView.count(
+                          shrinkWrap: true,
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 2,
+                          crossAxisSpacing: 2,
+                          childAspectRatio: 1,
+                          children: _workerProvider.workerLocationList
+                              .map((e) => WorkerSearchByLocation(e))
+                              .toList(),
+                        ),
+            ),
           ),
         ],
       ),
