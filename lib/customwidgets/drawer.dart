@@ -104,6 +104,16 @@ class _MainDrawerState extends State<MainDrawer> {
           title: Text('Dark Mood'),
         ),
         ListTile(
+          onTap: () {},
+          leading: Icon(Icons.warning),
+          title: Text('Terms & Conditions'),
+        ),
+        ListTile(
+          onTap: () {},
+          leading: Icon(Icons.verified_user),
+          title: Text('Privacy Policy'),
+        ),
+        ListTile(
           onTap: () async {
             await AuthService.logout().then((_) =>
                 Navigator.pushReplacementNamed(context, LoginPage.routeName));
