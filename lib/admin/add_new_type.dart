@@ -141,6 +141,7 @@ class _AddNewTypePageState extends State<AddNewTypePage> {
                               backgroundColor: btncolor),
                           onPressed: () {
                             _saveNewType();
+                            FocusScope.of(context).unfocus();
                           },
                           child: Text("Add")),
                     ),

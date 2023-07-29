@@ -3,13 +3,17 @@ import 'package:fix_masters/auth/auth_service.dart';
 import 'package:fix_masters/models/user_model.dart';
 import 'package:fix_masters/pages/email_verification_page.dart';
 import 'package:fix_masters/pages/home_page.dart';
+import 'package:fix_masters/pages/phone_number_login_page.dart';
 import 'package:fix_masters/pages/worker_or_user_page.dart';
+import 'package:fix_masters/providers/theme_provider.dart';
 import 'package:fix_masters/providers/user_provider.dart';
 import 'package:fix_masters/utils/constants.dart';
 import 'package:fix_masters/utils/helper_function.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
@@ -26,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
   final _passwordController = TextEditingController();
   bool _obscureText = true;
   String _errMsg = '';
-
+  AuthService authService = AuthService();
   bool isLogin = true;
 
   @override
@@ -38,6 +42,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       body: Container(
         child: Center(
@@ -51,15 +56,84 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   Image.asset(
                     "images/logoname.png",
-                    height: 250,
-                    width: 300,
+                    height: 150,
+                    width: 150,
                     fit: BoxFit.fill,
                   ),
                   SizedBox(
                     height: 20,
                   ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(context, PhoneAuthPage.routeName);
+                    },
+                    child: Container(
+                      height: 50.h,
+                      decoration: BoxDecoration(
+                          color: btncolor,
+                          borderRadius: BorderRadius.circular(25.r)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          CircleAvatar(
+                              backgroundColor: Colors.white70,
+                              radius: 25.r,
+                              child: Icon(
+                                Icons.call,
+                                color: Colors.green,
+                              )),
+                          SizedBox(
+                            width: 30,
+                          ),
+                          Text(
+                            "Continue with Phone",
+                            style: TextStyle(
+                                fontSize: 16.sp, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  InkWell(
+                    onTap: () async {
+                      await handleSignIn();
+                    },
+                    child: Container(
+                      height: 50.h,
+                      decoration: BoxDecoration(
+                          color: btncolor,
+                          borderRadius: BorderRadius.circular(25.r)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          CircleAvatar(
+                              backgroundColor: Colors.white70,
+                              radius: 25.r,
+                              child: Image.asset(
+                                "images/goo.png",
+                                height: 30,
+                              )),
+                          SizedBox(
+                            width: 30,
+                          ),
+                          Text(
+                            "Continue with Google",
+                            style: TextStyle(
+                                fontSize: 16.sp, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
                   TextFormField(
                     keyboardType: TextInputType.emailAddress,
+                    textInputAction: TextInputAction.next,
                     controller: _emailController,
                     decoration: InputDecoration(
                         contentPadding:
@@ -121,8 +195,12 @@ class _LoginPageState extends State<LoginPage> {
                             child: Text(
                               "Reset Password",
                               style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.black),
+                                fontWeight: FontWeight.w700,
+                                color: themeProvider.themeModeType ==
+                                        ThemeModeType.Dark
+                                    ? Colors.white
+                                    : Colors.black,
+                              ),
                             )),
                       ],
                     ),
@@ -138,14 +216,22 @@ class _LoginPageState extends State<LoginPage> {
                       backgroundColor: btncolor,
                     ),
                     child: Text(
-                      'LOGIN',
+                      'Login',
                       style: TextStyle(
-                          color: Colors.black, fontWeight: FontWeight.bold),
+                        color: themeProvider.themeModeType == ThemeModeType.Dark
+                            ? Colors.white
+                            : Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16.sp,
+                      ),
                     ),
                     onPressed: () {
                       isLogin = true;
                       _loginUser();
                     },
+                  ),
+                  SizedBox(
+                    height: 10,
                   ),
                   SizedBox(
                     height: 20.h,
@@ -262,5 +348,46 @@ class _LoginPageState extends State<LoginPage> {
         );
       },
     );
+  }
+
+  GoogleSignIn googleSignInf = GoogleSignIn();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  Future<User?> handleSignIn() async {
+    try {
+      GoogleSignInAccount? googleSignInAccount = await googleSignInf.signIn();
+      if (googleSignInAccount != null) {
+        GoogleSignInAuthentication googleAuth =
+            await googleSignInAccount.authentication;
+
+        AuthCredential credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
+
+        UserCredential userCredential =
+            await _auth.signInWithCredential(credential);
+
+        if (userCredential.user != null) {
+          User? user = userCredential.user;
+          UserModel userModel = UserModel(
+            userId: user!.uid,
+            email: user.email!,
+            userCreationTime:
+                user.metadata.creationTime!.millisecondsSinceEpoch,
+          );
+          Provider.of<UserProvider>(context, listen: false).addUser(userModel);
+          Navigator.pushReplacementNamed(context, WorkerOrUser.routeName);
+        } else {
+          AuthService.roleBaseLogin(context);
+          showToastMsg("Login Successfully");
+
+          // Save user data in your user collection
+
+        }
+      }
+    } catch (e) {
+      print(e);
+    }
+    return null;
   }
 }

@@ -61,6 +61,7 @@ dependencies:
   dots_indicator:
   carousel_slider:
   shared_preferences:
+  google_sign_in:
 dev_dependencies:
   flutter_test:
     sdk: flutter

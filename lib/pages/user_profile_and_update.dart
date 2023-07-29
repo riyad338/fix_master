@@ -18,10 +18,6 @@ class UserProfileandUpdatePage extends StatefulWidget {
 }
 
 class _UserProfileandUpdatePage extends State<UserProfileandUpdatePage> {
-  UserModel _userModel = UserModel(
-    userId: AuthService.currentUser!.uid,
-    email: "",
-  );
   bool isSaving = false;
 
   final _nameController = TextEditingController();
@@ -31,7 +27,7 @@ class _UserProfileandUpdatePage extends State<UserProfileandUpdatePage> {
   ImageSource _imageSource = ImageSource.camera;
   String? _imagePath;
   late UserProvider _userProvider;
-
+  String name = '';
   String? userImage;
   bool _isInit = true;
   @override
@@ -40,11 +36,13 @@ class _UserProfileandUpdatePage extends State<UserProfileandUpdatePage> {
       _userProvider = Provider.of<UserProvider>(context);
       _userProvider.getCurrentUser(AuthService.currentUser!.uid).then((user) {
         if (user != null) {
-          _emailController.text = user.email;
+          _emailController.text = user.email!;
           _nameController.text = user.name!;
           _phoneController.text = user.phone!;
           userImage = user.picture;
-          setState(() {});
+          setState(() {
+            name = user.name!;
+          });
         }
       });
     }
@@ -53,13 +51,13 @@ class _UserProfileandUpdatePage extends State<UserProfileandUpdatePage> {
   }
 
   @override
-  void dispose() {
-    _nameController.dispose();
-    _emailController.dispose();
-    _phoneController.dispose();
-
-    super.dispose();
-  }
+  // void dispose() {
+  //   _nameController.dispose();
+  //   _emailController.dispose();
+  //   _phoneController.dispose();
+  //
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -274,8 +272,7 @@ class _UserProfileandUpdatePage extends State<UserProfileandUpdatePage> {
   }
 
   void _uploadImage() async {
-    final imageName =
-        '${_userModel.email}_${DateTime.now().microsecondsSinceEpoch}';
+    final imageName = '${""}_${DateTime.now().microsecondsSinceEpoch}';
     final photoref =
         FirebaseStorage.instance.ref().child('UsersPhoto/$imageName');
     final uploadtask = photoref.putFile(File(_imagePath!));

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fix_masters/admin/add_location.dart';
@@ -8,6 +9,7 @@ import 'package:fix_masters/pages/google_map.dart';
 import 'package:fix_masters/pages/home_page.dart';
 import 'package:fix_masters/pages/launcher_page.dart';
 import 'package:fix_masters/pages/login_page.dart';
+import 'package:fix_masters/pages/phone_number_login_page.dart';
 import 'package:fix_masters/pages/show_worker_page.dart';
 import 'package:fix_masters/pages/user_profile_and_update.dart';
 import 'package:fix_masters/pages/worker_details_page.dart';
@@ -25,6 +27,7 @@ import 'package:provider/provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => UserProvider()),
     ChangeNotifierProvider(create: (context) => WorkerProvider()),
@@ -76,6 +79,7 @@ class MyApp extends StatelessWidget {
                         AddNewLocationPage(),
                     UserProfileandUpdatePage.routeName: (context) =>
                         UserProfileandUpdatePage(),
+                    PhoneAuthPage.routeName: (context) => PhoneAuthPage(),
                   },
                 );
               }));

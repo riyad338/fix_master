@@ -17,10 +17,12 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
   late WorkerProvider _workerProvider;
   double currentlat = 0.0;
   double currentlon = 0.0;
+  String? name;
   void didChangeDependencies() {
     _workerProvider = Provider.of<WorkerProvider>(context);
     final argList = ModalRoute.of(context)!.settings.arguments as List;
     _workerProvider.fetchAllWorkerByType(argList[0]);
+    name = argList[0];
     currentlat = argList[1];
     currentlon = argList[2];
     super.didChangeDependencies();
@@ -37,8 +39,7 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("See nearest worker"),
-        centerTitle: true,
+        title: Text("See nearest $name"),
       ),
       body: Column(
         children: [

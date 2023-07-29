@@ -49,7 +49,9 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       drawer: MainDrawer(),
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: themeProvider.themeModeType == ThemeModeType.Dark
+            ? Colors.black26
+            : Colors.white,
         elevation: 0,
         leading: Builder(
           builder: (context) => IconButton(
@@ -58,7 +60,9 @@ class _HomePageState extends State<HomePage> {
               },
               icon: Icon(
                 Icons.menu,
-                color: Colors.black,
+                color: themeProvider.themeModeType == ThemeModeType.Dark
+                    ? Colors.white
+                    : Colors.black,
               )),
         ),
         title: Text(
@@ -81,32 +85,38 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: CustomScrollView(
-        slivers: [
-          // sliver app bar
-          SliverAppBar(
-            automaticallyImplyLeading: false,
-            expandedHeight: 50,
-            backgroundColor: Colors.white,
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        child: CustomScrollView(
+          slivers: [
+            // sliver app bar
+            SliverAppBar(
+              automaticallyImplyLeading: false,
+              expandedHeight: 50,
+              backgroundColor: themeProvider.themeModeType == ThemeModeType.Dark
+                  ? Colors.black26
+                  : Colors.white,
 
-            floating: true,
+              floating: true,
 
-            title: Padding(
-              padding: EdgeInsets.only(left: 10.0),
-              child: Container(
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  elevation: 10,
-                  child: TextFormField(
-                    onChanged: (value) {
-                      setState(() {
-                        _searchQuery = value;
-                      });
-                    },
-                    decoration: InputDecoration(
+              title: Padding(
+                padding: EdgeInsets.only(left: 10.0),
+                child: Container(
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    elevation: 10,
+                    child: TextFormField(
+                      onChanged: (value) {
+                        setState(() {
+                          _searchQuery = value;
+                        });
+                      },
+                      decoration: InputDecoration(
                         fillColor: Colors.grey.shade200,
-                        filled: true,
+                        filled: false,
                         enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.r),
                             borderSide: BorderSide(color: Colors.grey)),
@@ -117,166 +127,164 @@ class _HomePageState extends State<HomePage> {
                             borderSide: BorderSide(color: Colors.grey)),
                         suffixIcon: Icon(
                           Icons.search,
-                          color: Colors.black,
                         ),
                         hintText: 'Search Need Your Service',
-                        hintStyle: TextStyle(
-                            color: themeProvider.themeModeType ==
-                                    ThemeModeType.Dark
-                                ? Colors.black54
-                                : Colors.grey)),
+                      ),
+                    ),
                   ),
                 ),
               ),
+              // flexibleSpace: FlexibleSpaceBar(
+              //   title: Text('F A N C Y A P P B A R'),
+              //   background: Container(color: Colors.deepPurple[700]),
+              // ),
             ),
-            // flexibleSpace: FlexibleSpaceBar(
-            //   title: Text('F A N C Y A P P B A R'),
-            //   background: Container(color: Colors.deepPurple[700]),
-            // ),
-          ),
 
-          SliverToBoxAdapter(
-            child: Column(
-              children: [
-                _searchQuery.isNotEmpty
-                    ? ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: _searchQuery.isEmpty
-                            ? 0
-                            : _workerProvider.typeAndImageList.length,
-                        itemBuilder: (context, index) {
-                          final worker =
-                              _workerProvider.typeAndImageList[index];
-                          if (worker.name!
-                              .toLowerCase()
-                              .contains(_searchQuery.toLowerCase())) {
-                            return InkWell(
-                              onTap: () {
-                                Navigator.pushNamed(
-                                    context, ShowWorkerPage.routeName,
-                                    arguments: [
-                                      worker.name,
-                                    ]);
-                              },
-                              child: Card(
-                                child: ListTile(
-                                  leading: CircleAvatar(
-                                    backgroundImage: NetworkImage(
-                                        "${worker.imageDownloadUrl}"),
-                                  ),
-                                  title: Text("${worker.name}"),
-                                ),
-                              ),
-                            );
-                          } else {
-                            return Container();
-                          }
-                        },
-                      )
-                    : AspectRatio(
-                        aspectRatio: 3.5,
-                        child: CarouselSlider(
-                            items: _workerProvider.carouselSliderimg
-                                .map((item) => Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 3, right: 3),
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                                image: NetworkImage(item),
-                                                fit: BoxFit.fitWidth)),
-                                      ),
-                                    ))
-                                .toList(),
-                            options: CarouselOptions(
-                                autoPlay: true,
-                                enlargeCenterPage: true,
-                                viewportFraction: 0.8,
-                                enlargeStrategy:
-                                    CenterPageEnlargeStrategy.height,
-                                onPageChanged:
-                                    (val, carouselPageChangedReason) {
-                                  setState(() {
-                                    _dotPosition = val;
-                                  });
-                                })),
-                      ),
-                _searchQuery.isEmpty
-                    ? DotsIndicator(
-                        dotsCount: _workerProvider.carouselSliderimg.length == 0
-                            ? 1
-                            : _workerProvider.carouselSliderimg.length,
-                        position: _dotPosition,
-                        decorator: DotsDecorator(
-                          activeColor: btncolor,
-                          color: btncolor.withOpacity(0.5),
-                          spacing: EdgeInsets.all(2),
-                          activeSize: Size(8, 8),
-                          size: Size(6, 6),
-                        ),
-                      )
-                    : SizedBox(),
-                _searchQuery.isEmpty
-                    ? Container(
-                        width: double.infinity,
-                        child: GridView.builder(
-                          physics: NeverScrollableScrollPhysics(),
+            SliverToBoxAdapter(
+              child: Column(
+                children: [
+                  _searchQuery.isNotEmpty
+                      ? ListView.builder(
                           shrinkWrap: true,
-                          itemCount: _workerProvider.typeAndImageList.length,
+                          itemCount: _searchQuery.isEmpty
+                              ? 0
+                              : _workerProvider.typeAndImageList.length,
                           itemBuilder: (context, index) {
-                            return InkWell(
-                              onTap: () {
-                                Navigator.pushNamed(context,
-                                    ShowWorkerPage.routeName, arguments: [
-                                  _workerProvider.typeAndImageList[index].name
-                                ]);
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  color: Colors.blueGrey,
-                                  image: DecorationImage(
-                                    image: NetworkImage(
-                                      _workerProvider.typeAndImageList[index]
-                                          .imageDownloadUrl!,
+                            final worker =
+                                _workerProvider.typeAndImageList[index];
+                            if (worker.name!
+                                .toLowerCase()
+                                .contains(_searchQuery.toLowerCase())) {
+                              return InkWell(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                      context, ShowWorkerPage.routeName,
+                                      arguments: [
+                                        worker.name,
+                                      ]);
+                                },
+                                child: Card(
+                                  child: ListTile(
+                                    leading: CircleAvatar(
+                                      backgroundImage: NetworkImage(
+                                          "${worker.imageDownloadUrl}"),
                                     ),
-                                    fit: BoxFit.cover,
+                                    title: Text("${worker.name}"),
                                   ),
                                 ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        color: btncolor,
-                                        borderRadius: BorderRadius.only(
-                                          bottomRight: Radius.circular(15),
-                                          bottomLeft: Radius.circular(15),
-                                        ),
-                                      ),
-                                      child: Center(
-                                          child: Text(_workerProvider
-                                              .typeAndImageList[index].name!)),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
+                              );
+                            } else {
+                              return Container();
+                            }
                           },
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisSpacing: 10,
-                            mainAxisSpacing: 10,
-                            crossAxisCount: 3,
-                            childAspectRatio: 1.5,
-                          ),
+                        )
+                      : AspectRatio(
+                          aspectRatio: 3.5,
+                          child: CarouselSlider(
+                              items: _workerProvider.carouselSliderimg
+                                  .map((item) => Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 3, right: 3),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                                  image: NetworkImage(item),
+                                                  fit: BoxFit.fitWidth)),
+                                        ),
+                                      ))
+                                  .toList(),
+                              options: CarouselOptions(
+                                  autoPlay: true,
+                                  enlargeCenterPage: true,
+                                  viewportFraction: 0.8,
+                                  enlargeStrategy:
+                                      CenterPageEnlargeStrategy.height,
+                                  onPageChanged:
+                                      (val, carouselPageChangedReason) {
+                                    setState(() {
+                                      _dotPosition = val;
+                                    });
+                                  })),
                         ),
-                      )
-                    : SizedBox()
-              ],
+                  _searchQuery.isEmpty
+                      ? DotsIndicator(
+                          dotsCount:
+                              _workerProvider.carouselSliderimg.length == 0
+                                  ? 1
+                                  : _workerProvider.carouselSliderimg.length,
+                          position: _dotPosition,
+                          decorator: DotsDecorator(
+                            activeColor: btncolor,
+                            color: btncolor.withOpacity(0.5),
+                            spacing: EdgeInsets.all(2),
+                            activeSize: Size(8, 8),
+                            size: Size(6, 6),
+                          ),
+                        )
+                      : SizedBox(),
+                  _searchQuery.isEmpty
+                      ? Container(
+                          width: double.infinity,
+                          child: GridView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: _workerProvider.typeAndImageList.length,
+                            itemBuilder: (context, index) {
+                              return InkWell(
+                                onTap: () {
+                                  Navigator.pushNamed(context,
+                                      ShowWorkerPage.routeName, arguments: [
+                                    _workerProvider.typeAndImageList[index].name
+                                  ]);
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15),
+                                    color: Colors.blueGrey,
+                                    image: DecorationImage(
+                                      image: NetworkImage(
+                                        _workerProvider.typeAndImageList[index]
+                                            .imageDownloadUrl!,
+                                      ),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          color: btncolor,
+                                          borderRadius: BorderRadius.only(
+                                            bottomRight: Radius.circular(15),
+                                            bottomLeft: Radius.circular(15),
+                                          ),
+                                        ),
+                                        child: Center(
+                                            child: Text(_workerProvider
+                                                .typeAndImageList[index]
+                                                .name!)),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisSpacing: 10,
+                              mainAxisSpacing: 10,
+                              crossAxisCount: 3,
+                              childAspectRatio: 1.5,
+                            ),
+                          ),
+                        )
+                      : SizedBox()
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
       // body: Container(
       //   padding: EdgeInsets.symmetric(horizontal: 10),

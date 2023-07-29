@@ -4,19 +4,27 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fix_masters/auth/auth_service.dart';
 import 'package:fix_masters/models/user_model.dart';
 import 'package:fix_masters/pages/home_page.dart';
+import 'package:fix_masters/pages/worker_or_user_page.dart';
+import 'package:fix_masters/providers/theme_provider.dart';
 import 'package:fix_masters/providers/user_provider.dart';
+import 'package:fix_masters/utils/constants.dart';
 import 'package:fix_masters/utils/helper_function.dart';
 import 'package:flutter/material.dart';
 import 'package:otp_text_field/otp_text_field.dart';
 import 'package:otp_text_field/style.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class PhoneAuthPage extends StatefulWidget {
+  static const String routeName = '/phone_login';
   @override
   _PhoneAuthPageState createState() => _PhoneAuthPageState();
 }
 
 class _PhoneAuthPageState extends State<PhoneAuthPage> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final storage = new FlutterSecureStorage();
+
   int start = 30;
   bool wait = false;
   bool isLogin = true;
@@ -27,13 +35,29 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
   String smsCode = "";
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
-      backgroundColor: Colors.black87,
       appBar: AppBar(
-        backgroundColor: Colors.black87,
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(
+              Icons.arrow_back,
+              color: themeProvider.themeModeType == ThemeModeType.Dark
+                  ? Colors.white
+                  : Colors.black,
+            )),
+        backgroundColor: themeProvider.themeModeType == ThemeModeType.Dark
+            ? Colors.black54
+            : Colors.white,
         title: Text(
-          "SignUp",
-          style: TextStyle(color: Colors.white, fontSize: 24),
+          "SignUp With Phone",
+          style: TextStyle(
+              color: themeProvider.themeModeType == ThemeModeType.Dark
+                  ? Colors.white
+                  : Colors.black,
+              fontSize: 20),
         ),
         centerTitle: true,
       ),
@@ -43,8 +67,11 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(
-                height: 120,
+              Image.asset(
+                "images/logoname.png",
+                height: 150,
+                width: 150,
+                fit: BoxFit.fill,
               ),
               textField(),
               SizedBox(
@@ -63,7 +90,12 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
                     ),
                     Text(
                       "Enter 6 digit OTP",
-                      style: TextStyle(fontSize: 16, color: Colors.white),
+                      style: TextStyle(
+                          fontSize: 16,
+                          color:
+                              themeProvider.themeModeType == ThemeModeType.Dark
+                                  ? Colors.white
+                                  : Colors.black),
                     ),
                     Expanded(
                       child: Container(
@@ -87,7 +119,12 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
                 children: [
                   TextSpan(
                     text: "Send OTP again in ",
-                    style: TextStyle(fontSize: 16, color: Colors.yellowAccent),
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: themeProvider.themeModeType == ThemeModeType.Dark
+                          ? Colors.white
+                          : Colors.black,
+                    ),
                   ),
                   TextSpan(
                     text: "00:$start",
@@ -95,7 +132,12 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
                   ),
                   TextSpan(
                     text: " sec ",
-                    style: TextStyle(fontSize: 16, color: Colors.yellowAccent),
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: themeProvider.themeModeType == ThemeModeType.Dark
+                          ? Colors.white
+                          : Colors.black,
+                    ),
                   ),
                 ],
               )),
@@ -104,21 +146,22 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
               ),
               InkWell(
                 onTap: () {
-                  authClass.signInwithPhoneNumber(
-                      verificationIdFinal, smsCode, context);
+                  signInwithPhoneNumber(verificationIdFinal, smsCode, context);
                 },
                 child: Container(
                   height: 60,
                   width: MediaQuery.of(context).size.width - 60,
                   decoration: BoxDecoration(
-                      color: Color(0xffff9601),
-                      borderRadius: BorderRadius.circular(15)),
+                      color: btncolor, borderRadius: BorderRadius.circular(15)),
                   child: Center(
                     child: Text(
-                      "Lets Go",
+                      "Continue",
                       style: TextStyle(
                           fontSize: 17,
-                          color: Color(0xfffbe2ae),
+                          color:
+                              themeProvider.themeModeType == ThemeModeType.Dark
+                                  ? Colors.white
+                                  : Colors.black,
                           fontWeight: FontWeight.w700),
                     ),
                   ),
@@ -153,7 +196,7 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
       width: MediaQuery.of(context).size.width - 34,
       fieldWidth: 58,
       otpFieldStyle: OtpFieldStyle(
-        backgroundColor: Color(0xff1d1d1d),
+        backgroundColor: Colors.black54,
         borderColor: Colors.white,
       ),
       style: TextStyle(fontSize: 17, color: Colors.white),
@@ -173,7 +216,7 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
       width: MediaQuery.of(context).size.width - 40,
       height: 60,
       decoration: BoxDecoration(
-        color: Color(0xff1d1d1d),
+        color: Colors.black54,
         borderRadius: BorderRadius.circular(15),
       ),
       child: TextFormField(
@@ -202,7 +245,7 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
                       wait = true;
                       buttonName = "Resend";
                     });
-                    await authClass.verifyPhoneNumber(
+                    await verifyPhoneNumber(
                         "+880 ${phoneController.text}", context, setData);
                   },
             child: Padding(
@@ -229,29 +272,81 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
     startTimer();
   }
 
-  void _loginUser() async {
+  Future<void> verifyPhoneNumber(
+      String phoneNumber, BuildContext context, Function setData) async {
+    PhoneVerificationCompleted verificationCompleted =
+        (PhoneAuthCredential phoneAuthCredential) async {
+      showSnackBar(context, "Verification Completed");
+    };
+    PhoneVerificationFailed verificationFailed =
+        (FirebaseAuthException exception) {
+      showSnackBar(context, exception.toString());
+    };
+    PhoneCodeSent codeSent = (String verificationID, [forceResnedingtoken]) {
+      showSnackBar(context, "Verification Code sent on the phone number");
+      setData(verificationID);
+    };
+
+    PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout =
+        (String verificationID) {
+      showSnackBar(context, "Time out");
+    };
     try {
-      User? user;
-      if (user != null) {
-        if (!isLogin) {
-          final userModel = UserModel(
-            userId: user.uid,
-            email: user.email!,
-            userCreationTime:
-                user.metadata.creationTime!.millisecondsSinceEpoch,
-          );
-          Provider.of<UserProvider>(context, listen: false)
-              .addUser(userModel)
-              .then((value) {
-            Navigator.pushReplacementNamed(context, HomePage.routeName);
-          });
+      await _auth.verifyPhoneNumber(
+          timeout: Duration(seconds: 60),
+          phoneNumber: phoneNumber,
+          verificationCompleted: verificationCompleted,
+          verificationFailed: verificationFailed,
+          codeSent: codeSent,
+          codeAutoRetrievalTimeout: codeAutoRetrievalTimeout);
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+  }
 
-          // AuthService.roleBaseLogin(context)
+  void storeTokenAndData(UserCredential userCredential) async {
+    print("storing token and data");
+    await storage.write(
+        key: "token", value: userCredential.credential?.token.toString());
+    await storage.write(
+        key: "usercredential", value: userCredential.toString());
+  }
 
-        }
+  Future<void> signInwithPhoneNumber(
+      String verificationId, String smsCode, BuildContext context) async {
+    try {
+      AuthCredential credential = PhoneAuthProvider.credential(
+          verificationId: verificationId, smsCode: smsCode);
+
+      UserCredential userCredential =
+          await _auth.signInWithCredential(credential);
+
+      if (userCredential.user != null) {
+        User? user = userCredential.user;
+        UserModel userModel = UserModel(
+          userId: user!.uid,
+          phone: user.phoneNumber!,
+          userCreationTime: user.metadata.creationTime!.millisecondsSinceEpoch,
+        );
+
+        // Save user data in your user collection
+        Provider.of<UserProvider>(context, listen: false).addUser(userModel);
+
+        Navigator.pushReplacementNamed(context, WorkerOrUser.routeName);
+      } else {
+        AuthService.roleBaseLogin(context);
+        showToastMsg("Login Successfully");
       }
-    } on FirebaseAuthException catch (error) {
-      showToastMsg(error.message!);
+
+      // Navigator.pushReplacementNamed(context, WorkerOrUser.routeName);
+      // Navigator.pushAndRemoveUntil(
+      //     context,
+      //     MaterialPageRoute(builder: (builder) => HomePage()),
+      //     (route) => false);
+
+      showSnackBar(context, "logged In");
+    } catch (e) {
+      showSnackBar(context, e.toString());
     }
   }
 }

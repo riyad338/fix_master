@@ -4,9 +4,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:fix_masters/auth/auth_service.dart';
+import 'package:fix_masters/customwidgets/drawer.dart';
 import 'package:fix_masters/models/user_model.dart';
 import 'package:fix_masters/models/worker_form_model.dart';
 import 'package:fix_masters/pages/login_page.dart';
+import 'package:fix_masters/providers/theme_provider.dart';
 import 'package:fix_masters/providers/user_provider.dart';
 import 'package:fix_masters/providers/worker_provider.dart';
 import 'package:fix_masters/utils/constants.dart';
@@ -37,8 +39,8 @@ class _WorkerRegPageState extends State<WorkerRegPage> {
   ImageSource _imageSource = ImageSource.camera;
   String? _imagePath;
   @override
-  _getPosition() {
-    determinePosition().then((position) {
+  _getPosition() async {
+    await determinePosition().then((position) {
       setState(() {
         _workerFormModel.lat = position.latitude;
         _workerFormModel.lon = position.longitude;
@@ -59,12 +61,26 @@ class _WorkerRegPageState extends State<WorkerRegPage> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return ModalProgressHUD(
       inAsyncCall: isLoading,
       opacity: 0.5,
       progressIndicator: spinkit,
       child: Scaffold(
+        drawer: MainDrawer(),
         appBar: AppBar(
+          leading: Builder(
+            builder: (context) => IconButton(
+                onPressed: () {
+                  Scaffold.of(context).openDrawer();
+                },
+                icon: Icon(
+                  Icons.menu,
+                  color: themeProvider.themeModeType == ThemeModeType.Dark
+                      ? Colors.white
+                      : Colors.black,
+                )),
+          ),
           title: const Text('Add to Worker'),
           actions: [
             IconButton(

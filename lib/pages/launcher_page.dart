@@ -32,7 +32,7 @@ class _LauncherPageState extends State<LauncherPage> {
       }
     });
     FirebaseMessaging.onMessageOpenedApp.listen((message) {
-      if (message.notification != null) {
+      if (message.notification == null) {
         message.notification?.title;
         message.notification?.body;
       }

@@ -1,7 +1,7 @@
 class UserModel {
   String userId;
   String? name;
-  String email;
+  String? email;
   String? role;
   String? phone;
   String? picture;
@@ -11,7 +11,7 @@ class UserModel {
   UserModel(
       {required this.userId,
       this.name,
-      required this.email,
+      this.email,
       this.role,
       this.phone,
       this.picture,
