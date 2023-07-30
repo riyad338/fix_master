@@ -180,23 +180,34 @@ class _HomePageState extends State<HomePage> {
                               }
                             },
                           )
-                        : AspectRatio(
-                            aspectRatio: 3,
+                        : Container(
+                            height: 150,
+                            width: 400,
                             child: CarouselSlider(
                                 items: _workerProvider.carouselSliderimg
                                     .map((item) => Container(
-                                          margin: EdgeInsets.symmetric(
-                                              horizontal: 40.0),
-                                          child: Image.network(
-                                            item,
-                                            fit: BoxFit.fitWidth,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                          ),
+                                          width: 400,
+                                          height: 200,
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 10),
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                            child: Image.network(
+                                              item,
+                                              fit: BoxFit.fitWidth,
+                                            ),
                                           ),
                                         ))
                                     .toList(),
                                 options: CarouselOptions(
                                     autoPlay: true,
                                     enlargeCenterPage: true,
-                                    viewportFraction: 0.8,
+                                    viewportFraction: 1,
                                     enlargeStrategy:
                                         CenterPageEnlargeStrategy.height,
                                     onPageChanged:

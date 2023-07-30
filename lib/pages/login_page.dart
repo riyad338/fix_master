@@ -71,74 +71,6 @@ class _LoginPageState extends State<LoginPage> {
                   SizedBox(
                     height: 20,
                   ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.pushNamed(context, PhoneAuthPage.routeName);
-                    },
-                    child: Container(
-                      height: 50.h,
-                      decoration: BoxDecoration(
-                          color: btncolor,
-                          borderRadius: BorderRadius.circular(25.r)),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          CircleAvatar(
-                              backgroundColor: Colors.white70,
-                              radius: 25.r,
-                              child: Icon(
-                                Icons.call,
-                                color: Colors.green,
-                              )),
-                          SizedBox(
-                            width: 30,
-                          ),
-                          Text(
-                            "Continue with Phone",
-                            style: TextStyle(
-                                fontSize: 16.sp, fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  InkWell(
-                    onTap: () async {
-                      await _handleSignIn();
-                    },
-                    child: Container(
-                      height: 50.h,
-                      decoration: BoxDecoration(
-                          color: btncolor,
-                          borderRadius: BorderRadius.circular(25.r)),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          CircleAvatar(
-                              backgroundColor: Colors.white70,
-                              radius: 25.r,
-                              child: Image.asset(
-                                "images/goo.png",
-                                height: 30,
-                              )),
-                          SizedBox(
-                            width: 30,
-                          ),
-                          Text(
-                            "Continue with Google",
-                            style: TextStyle(
-                                fontSize: 16.sp, fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
                   TextFormField(
                     keyboardType: TextInputType.emailAddress,
                     textInputAction: TextInputAction.next,
@@ -241,9 +173,6 @@ class _LoginPageState extends State<LoginPage> {
                   SizedBox(
                     height: 10,
                   ),
-                  SizedBox(
-                    height: 20.h,
-                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -269,6 +198,102 @@ class _LoginPageState extends State<LoginPage> {
                     style: TextStyle(color: Colors.red),
                   ),
                 ],
+              ),
+              Container(
+                width: double.infinity,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        height: 1,
+                        color: Colors.grey,
+                        margin: EdgeInsets.symmetric(horizontal: 12),
+                      ),
+                    ),
+                    Text(
+                      "o",
+                      style: TextStyle(fontSize: 16, color: Colors.black),
+                    ),
+                    Expanded(
+                      child: Container(
+                        height: 1,
+                        color: Colors.grey,
+                        margin: EdgeInsets.symmetric(horizontal: 12),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.pushNamed(context, PhoneAuthPage.routeName);
+                },
+                child: Container(
+                  height: 50.h,
+                  decoration: BoxDecoration(
+                      color: btncolor,
+                      borderRadius: BorderRadius.circular(25.r)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      CircleAvatar(
+                          backgroundColor: Colors.white70,
+                          radius: 25.r,
+                          child: Icon(
+                            Icons.call,
+                            color: Colors.green,
+                          )),
+                      SizedBox(
+                        width: 30,
+                      ),
+                      Text(
+                        "Continue with Phone",
+                        style: TextStyle(
+                            fontSize: 16.sp, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              InkWell(
+                onTap: () async {
+                  await _handleSignIn();
+                },
+                child: Container(
+                  height: 50.h,
+                  decoration: BoxDecoration(
+                      color: btncolor,
+                      borderRadius: BorderRadius.circular(25.r)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      CircleAvatar(
+                          backgroundColor: Colors.white70,
+                          radius: 25.r,
+                          child: Image.asset(
+                            "images/goo.png",
+                            height: 30,
+                          )),
+                      SizedBox(
+                        width: 30,
+                      ),
+                      Text(
+                        "Continue with Google",
+                        style: TextStyle(
+                            fontSize: 16.sp, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 10,
               ),
             ],
           ),
