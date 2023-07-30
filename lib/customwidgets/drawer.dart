@@ -115,9 +115,10 @@ class _MainDrawerState extends State<MainDrawer> {
         ),
         ListTile(
           onTap: () async {
+            showToastMsg("Logout Successfully");
             await AuthService.logout().then((_) =>
                 Navigator.pushReplacementNamed(context, LoginPage.routeName));
-            showToastMsg("Logout Successfully");
+
             await _googleSignIn.signOut();
           },
           leading: Icon(Icons.logout),

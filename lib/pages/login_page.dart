@@ -198,7 +198,7 @@ class _LoginPageState extends State<LoginPage> {
                       children: [
                         TextButton(
                             onPressed: () {
-                              _showDialog(context);
+                              _showDialog(context, themeProvider);
                             },
                             child: Text(
                               "Reset Password",
@@ -314,12 +314,14 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  _showDialog(BuildContext context) {
+  _showDialog(BuildContext context, ThemeProvider themeProvider) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: Colors.white,
+          backgroundColor: themeProvider.themeModeType == ThemeModeType.Dark
+              ? Colors.black
+              : Colors.white,
           elevation: 20,
           title: Text("Reset your password"),
           content: TextFormField(
@@ -345,9 +347,10 @@ class _LoginPageState extends State<LoginPage> {
                 AuthService.resetPassword(_resetemailController.text);
 
                 Navigator.of(context).pop();
+
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: Text('Mail sent. Pleae check your inbox'),
+                    content: Text('Mail sent. Pleae check your mail'),
                   ),
                 );
               },
