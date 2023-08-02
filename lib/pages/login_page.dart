@@ -211,7 +211,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     Text(
-                      "o",
+                      "OR",
                       style: TextStyle(fontSize: 16, color: Colors.black),
                     ),
                     Expanded(
@@ -423,6 +423,7 @@ class _LoginPageState extends State<LoginPage> {
 
           // Proceed to the main screen or any other screen.
           AuthService.roleBaseLogin(context);
+          showToastMsg("Login Successfully");
         }
       }
     } catch (e) {

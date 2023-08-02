@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:fix_masters/auth/auth_service.dart';
 import 'package:fix_masters/models/user_model.dart';
+import 'package:fix_masters/providers/theme_provider.dart';
 import 'package:fix_masters/providers/user_provider.dart';
 import 'package:fix_masters/utils/constants.dart';
 import 'package:fix_masters/utils/helper_function.dart';
@@ -51,16 +52,17 @@ class _UserProfileandUpdatePage extends State<UserProfileandUpdatePage> {
   }
 
   @override
-  // void dispose() {
-  //   _nameController.dispose();
-  //   _emailController.dispose();
-  //   _phoneController.dispose();
-  //
-  //   super.dispose();
-  // }
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _phoneController.dispose();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text("Profile"),
@@ -122,7 +124,7 @@ class _UserProfileandUpdatePage extends State<UserProfileandUpdatePage> {
                               backgroundColor: btncolor,
                               child: IconButton(
                                   onPressed: () {
-                                    _updateProfileimage();
+                                    _updateProfileimage(themeProvider);
                                   },
                                   icon: Icon(
                                     Icons.edit,
@@ -196,12 +198,14 @@ class _UserProfileandUpdatePage extends State<UserProfileandUpdatePage> {
     );
   }
 
-  _updateProfileimage() {
+  _updateProfileimage(ThemeProvider themeProvider) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: Colors.white,
+          backgroundColor: themeProvider.themeModeType == ThemeModeType.Dark
+              ? Colors.black
+              : Colors.white,
           elevation: 20,
           content: Text("Please select"),
           actions: [
