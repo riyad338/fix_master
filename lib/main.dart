@@ -28,6 +28,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
+  FirebaseMessaging.instance.getInitialMessage();
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => UserProvider()),
     ChangeNotifierProvider(create: (context) => WorkerProvider()),

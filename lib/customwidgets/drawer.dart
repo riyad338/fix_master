@@ -91,7 +91,11 @@ class _MainDrawerState extends State<MainDrawer> {
           title: Text('Share'),
         ),
         ListTile(
-          onTap: () {},
+          onTap: () {
+            setState(() {
+              themeProvider.toggleTheme();
+            });
+          },
           trailing: Switch(
             value: themeProvider.themeModeType == ThemeModeType.Dark,
             onChanged: (value) {

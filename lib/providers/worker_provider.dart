@@ -13,6 +13,7 @@ class WorkerProvider extends ChangeNotifier {
   List<WorkerFormModel> workerList = [];
   List<WorkerFormModel> workerLocationList = [];
   List<TypeofWorkModel> typeAndImageList = [];
+  List<TypeofWorkModel> popularList = [];
   List<WorkerFormModel> workerByIdList = [];
   Future<void> insertNewWorker(WorkerFormModel workerFormModel) {
     return DBHelper.addNewWorker(workerFormModel);
@@ -23,6 +24,7 @@ class WorkerProvider extends ChangeNotifier {
     _getAllWorkType();
     _fetchAllTypeAndImage();
     _getCarouselSliderImage();
+    _fetchAllPopular();
   }
 
   void _getAllLocation() {
@@ -71,6 +73,14 @@ class WorkerProvider extends ChangeNotifier {
   void _fetchAllTypeAndImage() {
     DBHelper.fetchAllTypeAndImage().listen((event) {
       typeAndImageList = List.generate(event.docs.length,
+          (index) => TypeofWorkModel.fromMap(event.docs[index].data()));
+      notifyListeners();
+    });
+  }
+
+  void _fetchAllPopular() {
+    DBHelper.fetchAllPopular().listen((event) {
+      popularList = List.generate(event.docs.length,
           (index) => TypeofWorkModel.fromMap(event.docs[index].data()));
       notifyListeners();
     });

@@ -29,6 +29,7 @@ class _HomePageState extends State<HomePage> {
   var _dotPosition = 0;
   String _searchQuery = '';
   String? image;
+
   void didChangeDependencies() {
     _workerProvider = Provider.of<WorkerProvider>(context);
     _userProvider = Provider.of<UserProvider>(context);
@@ -293,6 +294,64 @@ class _HomePageState extends State<HomePage> {
                                 childAspectRatio: 1.5,
                               ),
                             ),
+                          )
+                        : SizedBox(),
+                    _searchQuery.isEmpty
+                        ? Column(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.symmetric(vertical: 8.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Popular",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20),
+                                    ),
+                                    Icon(Icons.arrow_forward)
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                height: 180,
+                                child: ListView.builder(
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount:
+                                        _workerProvider.popularList.length,
+                                    itemBuilder: (context, index) {
+                                      final indx =
+                                          _workerProvider.popularList[index];
+                                      return Padding(
+                                        padding: EdgeInsets.only(right: 20.0),
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(20)),
+                                          child: InkWell(
+                                            onTap: () {
+                                              Navigator.pushNamed(context,
+                                                  ShowWorkerPage.routeName,
+                                                  arguments: [indx.name]);
+                                            },
+                                            child: Container(
+                                              width: 250.w,
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          20.r)),
+                                              child: Image.network(
+                                                "${indx.imageDownloadUrl}",
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    }),
+                              ),
+                            ],
                           )
                         : SizedBox()
                   ],

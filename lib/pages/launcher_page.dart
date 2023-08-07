@@ -32,7 +32,7 @@ class _LauncherPageState extends State<LauncherPage> {
       }
     });
     FirebaseMessaging.onMessageOpenedApp.listen((message) {
-      if (message.notification == null) {
+      if (message.notification != null) {
         message.notification?.title;
         message.notification?.body;
       }
@@ -52,7 +52,7 @@ class _LauncherPageState extends State<LauncherPage> {
     return Scaffold(
       body: Center(
           child: SpinKitWanderingCubes(
-        color: Colors.greenAccent,
+        color: Colors.blueAccent,
       )),
     );
   }

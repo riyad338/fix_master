@@ -9,6 +9,7 @@ class DBHelper {
   static const _collectionLocation = 'Location';
   static const _collectionUser = 'Users';
   static const _collectiontypeAndImage = 'Type&Image';
+  static const _collectionPopular = 'Popular';
 
   static final FirebaseFirestore _db = FirebaseFirestore.instance;
 
@@ -49,6 +50,8 @@ class DBHelper {
           .snapshots();
   static Stream<QuerySnapshot<Map<String, dynamic>>> fetchAllTypeAndImage() =>
       _db.collection(_collectiontypeAndImage).snapshots();
+  static Stream<QuerySnapshot<Map<String, dynamic>>> fetchAllPopular() =>
+      _db.collection(_collectionPopular).snapshots();
   static Stream<DocumentSnapshot<Map<String, dynamic>>> workerById(
           String workerId) =>
       _db.collection(_collectionWorker).doc(workerId).snapshots();
