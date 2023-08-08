@@ -415,6 +415,7 @@ class _LoginPageState extends State<LoginPage> {
             // Add the user's data to the database using UserModel.
             UserModel userModel = UserModel(
               userId: user.uid,
+              name: user.displayName,
               email: user.email!,
               userCreationTime:
                   user.metadata.creationTime!.millisecondsSinceEpoch,
