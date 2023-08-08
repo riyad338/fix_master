@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../auth/auth_service.dart';
 import '../pages/login_page.dart';
@@ -91,7 +92,7 @@ class _MainDrawerState extends State<MainDrawer> {
           title: Text('Share'),
         ),
         ListTile(
-          onTap: () {
+          onTap: () async {
             setState(() {
               themeProvider.toggleTheme();
             });

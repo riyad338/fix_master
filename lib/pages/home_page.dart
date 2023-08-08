@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fix_masters/auth/auth_service.dart';
 import 'package:fix_masters/customwidgets/drawer.dart';
 import 'package:fix_masters/pages/login_page.dart';
@@ -44,6 +45,7 @@ class _HomePageState extends State<HomePage> {
     super.didChangeDependencies();
   }
 
+  @override
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);

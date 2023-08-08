@@ -212,7 +212,12 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     Text(
                       "OR",
-                      style: TextStyle(fontSize: 16, color: Colors.black),
+                      style: TextStyle(
+                          fontSize: 16,
+                          color:
+                              themeProvider.themeModeType == ThemeModeType.Dark
+                                  ? Colors.white
+                                  : Colors.black),
                     ),
                     Expanded(
                       child: Container(

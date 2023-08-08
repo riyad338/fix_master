@@ -75,7 +75,7 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
                 width: 150,
                 fit: BoxFit.fill,
               ),
-              textField(),
+              textField(themeProvider),
               SizedBox(
                 height: 30,
               ),
@@ -112,7 +112,7 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
               SizedBox(
                 height: 30,
               ),
-              otpField(),
+              otpField(themeProvider),
               SizedBox(
                 height: 40,
               ),
@@ -192,13 +192,15 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
     });
   }
 
-  Widget otpField() {
+  Widget otpField(ThemeProvider themeProvider) {
     return OTPTextField(
       length: 6,
       width: MediaQuery.of(context).size.width - 34,
       fieldWidth: 58,
       otpFieldStyle: OtpFieldStyle(
-        backgroundColor: Colors.black54,
+        backgroundColor: themeProvider.themeModeType == ThemeModeType.Dark
+            ? Colors.black54
+            : Colors.black26,
         borderColor: Colors.white,
       ),
       style: TextStyle(fontSize: 17, color: Colors.white),
@@ -213,12 +215,14 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
     );
   }
 
-  Widget textField() {
+  Widget textField(ThemeProvider themeProvider) {
     return Container(
       width: MediaQuery.of(context).size.width - 40,
       height: 60,
       decoration: BoxDecoration(
-        color: Colors.black54,
+        color: themeProvider.themeModeType == ThemeModeType.Dark
+            ? Colors.black54
+            : Colors.black26,
         borderRadius: BorderRadius.circular(15),
       ),
       child: TextFormField(

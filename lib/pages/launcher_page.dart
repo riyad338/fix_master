@@ -24,26 +24,6 @@ class _LauncherPageState extends State<LauncherPage> {
       }
     });
 
-    FirebaseMessaging.instance.getInitialMessage();
-    FirebaseMessaging.onMessage.listen((message) {
-      if (message.notification != null) {
-        message.notification?.title;
-        message.notification?.body;
-      }
-    });
-    FirebaseMessaging.onMessageOpenedApp.listen((message) {
-      if (message.notification != null) {
-        message.notification?.title;
-        message.notification?.body;
-      }
-    });
-    FirebaseMessaging.instance.getInitialMessage().then((message) {
-      if (message != null) {
-        message.notification?.title;
-        message.notification?.body;
-      }
-    });
-
     super.initState();
   }
 
