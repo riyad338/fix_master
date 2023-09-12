@@ -69,10 +69,10 @@ class _UserProfileandUpdatePage extends State<UserProfileandUpdatePage> {
         backgroundColor: btncolor,
         actions: [
           Container(
-            padding: EdgeInsets.only(right: 10),
+            padding: EdgeInsets.only(right: 10.w),
             width: 80.w,
             child: IconButton(
-              padding: EdgeInsets.symmetric(vertical: 12),
+              padding: EdgeInsets.symmetric(vertical: 12.w),
               onPressed: () {
                 _updateUserInformation();
                 _uploadImage();

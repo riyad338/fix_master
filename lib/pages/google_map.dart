@@ -1,4 +1,5 @@
 import 'package:fix_masters/providers/worker_provider.dart';
+import 'package:fix_masters/utils/constants.dart';
 import 'package:fix_masters/utils/helper_function.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -39,6 +40,7 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: btncolor,
         title: Text("See nearest $name"),
       ),
       body: Column(
@@ -49,8 +51,7 @@ class _GoogleMapPageState extends State<GoogleMapPage> {
               itemBuilder: (context, index) {
                 markers.add(Marker(
                     infoWindow: InfoWindow(
-                        title:
-                            '${_workerProvider.workerList[index].name}(${_workerProvider.workerList[index].type})'),
+                        title: '${_workerProvider.workerList[index].name}'),
                     markerId:
                         MarkerId('${_workerProvider.workerList[index].name}'),
                     position: LatLng(

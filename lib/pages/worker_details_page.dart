@@ -45,7 +45,7 @@ class _WorkerDetailsPageState extends State<WorkerDetailsPage> {
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 8.0),
+        padding: EdgeInsets.symmetric(horizontal: 8.0.w),
         child: Column(
           children: [
             Center(
@@ -69,7 +69,7 @@ class _WorkerDetailsPageState extends State<WorkerDetailsPage> {
                               )
                             : CachedNetworkImage(
                                 imageUrl: worker.imageDownloadUrl!,
-                                height: 150,
+                                height: 150.h,
                                 fit: BoxFit.cover,
                                 placeholder: (context, url) =>
                                     SpinKitFadingCircle(
@@ -83,7 +83,7 @@ class _WorkerDetailsPageState extends State<WorkerDetailsPage> {
                           title: Text("${worker.name}"),
                         ),
                         SizedBox(
-                          height: 5,
+                          height: 5.h,
                         ),
                         ListTile(
                           onTap: () {
@@ -97,21 +97,21 @@ class _WorkerDetailsPageState extends State<WorkerDetailsPage> {
                           ),
                         ),
                         SizedBox(
-                          height: 5,
+                          height: 5.h,
                         ),
                         ListTile(
                           tileColor: Colors.black12,
                           title: Text("${worker.location}"),
                         ),
                         SizedBox(
-                          height: 5,
+                          height: 5.h,
                         ),
                         ListTile(
                           tileColor: Colors.black12,
                           title: Text("${worker.type}"),
                         ),
                         SizedBox(
-                          height: 5,
+                          height: 5.h,
                         ),
                         Text(
                           ' ${worker.description}',

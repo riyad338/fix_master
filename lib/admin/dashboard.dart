@@ -7,6 +7,7 @@ import 'package:fix_masters/pages/login_page.dart';
 import 'package:fix_masters/utils/constants.dart';
 import 'package:fix_masters/utils/helper_function.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 
 class DashboardPage extends StatefulWidget {
@@ -17,6 +18,8 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,10 +31,12 @@ class _DashboardPageState extends State<DashboardPage> {
         actions: [
           IconButton(
             icon: Icon(Icons.logout),
-            onPressed: () {
+            onPressed: () async {
               AuthService.logout().then((_) =>
                   Navigator.pushReplacementNamed(context, LoginPage.routeName));
               showToastMsg("Logout Successfully");
+
+              await _googleSignIn.signOut();
             },
           )
         ],

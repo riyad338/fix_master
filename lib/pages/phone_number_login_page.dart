@@ -11,6 +11,7 @@ import 'package:fix_masters/providers/user_provider.dart';
 import 'package:fix_masters/utils/constants.dart';
 import 'package:fix_masters/utils/helper_function.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:otp_text_field/otp_text_field.dart';
 import 'package:otp_text_field/style.dart';
 import 'package:provider/provider.dart';
@@ -59,7 +60,7 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
               color: themeProvider.themeModeType == ThemeModeType.Dark
                   ? Colors.white
                   : Colors.black,
-              fontSize: 20),
+              fontSize: 20.sp),
         ),
         centerTitle: true,
       ),
@@ -71,13 +72,13 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
             children: [
               Image.asset(
                 "images/logoname.png",
-                height: 150,
-                width: 150,
+                height: 150.h,
+                width: 150.w,
                 fit: BoxFit.fill,
               ),
               textField(themeProvider),
               SizedBox(
-                height: 30,
+                height: 30.h,
               ),
               Container(
                 width: MediaQuery.of(context).size.width - 30,
@@ -85,15 +86,15 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
                   children: [
                     Expanded(
                       child: Container(
-                        height: 1,
+                        height: 1.h,
                         color: Colors.grey,
-                        margin: EdgeInsets.symmetric(horizontal: 12),
+                        margin: EdgeInsets.symmetric(horizontal: 12.w),
                       ),
                     ),
                     Text(
                       "Enter 6 digit OTP",
                       style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 16.sp,
                           color:
                               themeProvider.themeModeType == ThemeModeType.Dark
                                   ? Colors.white
@@ -101,20 +102,20 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
                     ),
                     Expanded(
                       child: Container(
-                        height: 1,
+                        height: 1.h,
                         color: Colors.grey,
-                        margin: EdgeInsets.symmetric(horizontal: 12),
+                        margin: EdgeInsets.symmetric(horizontal: 12.w),
                       ),
                     ),
                   ],
                 ),
               ),
               SizedBox(
-                height: 30,
+                height: 30.h,
               ),
               otpField(themeProvider),
               SizedBox(
-                height: 40,
+                height: 40.h,
               ),
               RichText(
                   text: TextSpan(
@@ -122,7 +123,7 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
                   TextSpan(
                     text: "Send OTP again in ",
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 16.sp,
                       color: themeProvider.themeModeType == ThemeModeType.Dark
                           ? Colors.white
                           : Colors.black,
@@ -130,12 +131,12 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
                   ),
                   TextSpan(
                     text: "00:$start",
-                    style: TextStyle(fontSize: 16, color: Colors.pinkAccent),
+                    style: TextStyle(fontSize: 16.sp, color: Colors.pinkAccent),
                   ),
                   TextSpan(
                     text: " sec ",
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 16.sp,
                       color: themeProvider.themeModeType == ThemeModeType.Dark
                           ? Colors.white
                           : Colors.black,
@@ -144,22 +145,23 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
                 ],
               )),
               SizedBox(
-                height: 150,
+                height: 150.h,
               ),
               InkWell(
                 onTap: () {
                   signInwithPhoneNumber(verificationIdFinal, smsCode, context);
                 },
                 child: Container(
-                  height: 60,
+                  height: 60.h,
                   width: MediaQuery.of(context).size.width - 60,
                   decoration: BoxDecoration(
-                      color: btncolor, borderRadius: BorderRadius.circular(15)),
+                      color: btncolor,
+                      borderRadius: BorderRadius.circular(15.r)),
                   child: Center(
                     child: Text(
                       "Continue",
                       style: TextStyle(
-                          fontSize: 17,
+                          fontSize: 17.sp,
                           color:
                               themeProvider.themeModeType == ThemeModeType.Dark
                                   ? Colors.white
@@ -196,14 +198,14 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
     return OTPTextField(
       length: 6,
       width: MediaQuery.of(context).size.width - 34,
-      fieldWidth: 58,
+      fieldWidth: 58.w,
       otpFieldStyle: OtpFieldStyle(
         backgroundColor: themeProvider.themeModeType == ThemeModeType.Dark
             ? Colors.black54
             : Colors.black26,
         borderColor: Colors.white,
       ),
-      style: TextStyle(fontSize: 17, color: Colors.white),
+      style: TextStyle(fontSize: 17.sp, color: Colors.white),
       textFieldAlignment: MainAxisAlignment.spaceAround,
       fieldStyle: FieldStyle.underline,
       onCompleted: (pin) {
@@ -218,28 +220,27 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
   Widget textField(ThemeProvider themeProvider) {
     return Container(
       width: MediaQuery.of(context).size.width - 40,
-      height: 60,
+      height: 60.h,
       decoration: BoxDecoration(
         color: themeProvider.themeModeType == ThemeModeType.Dark
             ? Colors.black54
             : Colors.black26,
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(15.r),
       ),
       child: TextFormField(
         controller: phoneController,
-        style: TextStyle(color: Colors.white, fontSize: 17),
+        style: TextStyle(color: Colors.white, fontSize: 17.sp),
         keyboardType: TextInputType.number,
         decoration: InputDecoration(
           border: InputBorder.none,
           hintText: "Enter your phone Number",
-          hintStyle: TextStyle(color: Colors.white54, fontSize: 17),
-          contentPadding:
-              const EdgeInsets.symmetric(vertical: 19, horizontal: 8),
+          hintStyle: TextStyle(color: Colors.white54, fontSize: 17.sp),
+          contentPadding: EdgeInsets.symmetric(vertical: 19.h, horizontal: 8.w),
           prefixIcon: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 15),
+            padding: EdgeInsets.symmetric(vertical: 14.h, horizontal: 15.w),
             child: Text(
               " (+880) ",
-              style: TextStyle(color: Colors.white, fontSize: 17),
+              style: TextStyle(color: Colors.white, fontSize: 17.sp),
             ),
           ),
           suffixIcon: InkWell(
@@ -255,12 +256,12 @@ class _PhoneAuthPageState extends State<PhoneAuthPage> {
                         "+880 ${phoneController.text}", context, setData);
                   },
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
+              padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 15.w),
               child: Text(
                 buttonName,
                 style: TextStyle(
                   color: wait ? Colors.grey : Colors.white,
-                  fontSize: 17,
+                  fontSize: 17.sp,
                   fontWeight: FontWeight.bold,
                 ),
               ),

@@ -55,13 +55,13 @@ class _MainDrawerState extends State<MainDrawer> {
           color: btncolor,
           height: 270.h,
           child: Padding(
-            padding: const EdgeInsets.only(left: 10.0),
+            padding: EdgeInsets.only(left: 10.0.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Padding(
-                  padding: EdgeInsets.only(left: 10.0),
+                  padding: EdgeInsets.only(left: 10.0.w),
                   child: CircleAvatar(
                     backgroundColor: Colors.white,
                     radius: 50.r,

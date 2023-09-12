@@ -66,7 +66,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
           ),
           SizedBox(height: 8.h),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 32.0),
+            padding: EdgeInsets.symmetric(horizontal: 32.0.w),
             child: Center(
               child: Text(
                 'We have sent you a Email on  ${FirebaseAuth.instance.currentUser?.email}',
@@ -80,8 +80,8 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
             color: Colors.greenAccent,
           )),
           SizedBox(height: 8.h),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 32.0),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 32.0.w),
             child: Center(
               child: Text(
                 'Verifying email....',
@@ -91,7 +91,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
           ),
           SizedBox(height: 57.h),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 32.0),
+            padding: EdgeInsets.symmetric(horizontal: 32.0.w),
             child: ElevatedButton(
               style:
                   ElevatedButton.styleFrom(backgroundColor: Colors.greenAccent),

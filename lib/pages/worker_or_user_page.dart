@@ -35,8 +35,8 @@ class _WorkerOrUserState extends State<WorkerOrUser> {
           children: [
             Image.asset(
               "images/logoname.png",
-              height: 250,
-              width: 300,
+              height: 250.h,
+              width: 300.w,
               fit: BoxFit.fill,
             ),
             SizedBox(
@@ -44,7 +44,7 @@ class _WorkerOrUserState extends State<WorkerOrUser> {
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                minimumSize: Size(double.infinity, 50),
+                minimumSize: Size(double.infinity, 50.h),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.r)),
                 backgroundColor: btncolor,
@@ -61,7 +61,7 @@ class _WorkerOrUserState extends State<WorkerOrUser> {
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                minimumSize: Size(double.infinity, 50),
+                minimumSize: Size(double.infinity, 50.h),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.r)),
                 backgroundColor: btncolor,

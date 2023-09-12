@@ -57,27 +57,27 @@ class _LoginPageState extends State<LoginPage> {
             child: Form(
           key: _formKey,
           child: ListView(
-            padding: EdgeInsets.symmetric(horizontal: 40),
+            padding: EdgeInsets.symmetric(horizontal: 40.w),
             shrinkWrap: true,
             children: [
               Column(
                 children: [
                   Image.asset(
                     "images/logoname.png",
-                    height: 150,
-                    width: 150,
+                    height: 150.h,
+                    width: 150.w,
                     fit: BoxFit.fill,
                   ),
                   SizedBox(
-                    height: 20,
+                    height: 20.h,
                   ),
                   TextFormField(
                     keyboardType: TextInputType.emailAddress,
                     textInputAction: TextInputAction.next,
                     controller: _emailController,
                     decoration: InputDecoration(
-                        contentPadding:
-                            EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                        contentPadding: EdgeInsets.symmetric(
+                            horizontal: 10.w, vertical: 15.h),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20.r)),
                         prefixIcon: Icon(Icons.email),
@@ -100,8 +100,8 @@ class _LoginPageState extends State<LoginPage> {
                     obscureText: _obscureText,
                     controller: _passwordController,
                     decoration: InputDecoration(
-                        contentPadding:
-                            EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                        contentPadding: EdgeInsets.symmetric(
+                            horizontal: 10.w, vertical: 15.h),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20.r)),
                         prefixIcon: Icon(Icons.lock),
@@ -150,7 +150,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      minimumSize: Size(double.infinity, 50),
+                      minimumSize: Size(double.infinity, 50.h),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20.r)),
                       backgroundColor: btncolor,
@@ -171,7 +171,7 @@ class _LoginPageState extends State<LoginPage> {
                     },
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 10.h,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -205,15 +205,15 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     Expanded(
                       child: Container(
-                        height: 1,
+                        height: 1.h,
                         color: Colors.grey,
-                        margin: EdgeInsets.symmetric(horizontal: 12),
+                        margin: EdgeInsets.symmetric(horizontal: 12.w),
                       ),
                     ),
                     Text(
                       "OR",
                       style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 16.sp,
                           color:
                               themeProvider.themeModeType == ThemeModeType.Dark
                                   ? Colors.white
@@ -221,16 +221,16 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     Expanded(
                       child: Container(
-                        height: 1,
+                        height: 1.h,
                         color: Colors.grey,
-                        margin: EdgeInsets.symmetric(horizontal: 12),
+                        margin: EdgeInsets.symmetric(horizontal: 12.w),
                       ),
                     ),
                   ],
                 ),
               ),
               SizedBox(
-                height: 10,
+                height: 10.h,
               ),
               InkWell(
                 onTap: () {
@@ -252,7 +252,7 @@ class _LoginPageState extends State<LoginPage> {
                             color: Colors.green,
                           )),
                       SizedBox(
-                        width: 30,
+                        width: 30.w,
                       ),
                       Text(
                         "Continue with Phone",
@@ -264,7 +264,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               SizedBox(
-                height: 10,
+                height: 10.h,
               ),
               InkWell(
                 onTap: () async {
@@ -283,10 +283,10 @@ class _LoginPageState extends State<LoginPage> {
                           radius: 25.r,
                           child: Image.asset(
                             "images/goo.png",
-                            height: 30,
+                            height: 30.h,
                           )),
                       SizedBox(
-                        width: 30,
+                        width: 30.w,
                       ),
                       Text(
                         "Continue with Google",
@@ -298,7 +298,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               SizedBox(
-                height: 10,
+                height: 10.h,
               ),
             ],
           ),

@@ -2,6 +2,7 @@ import 'package:fix_masters/models/location_model.dart';
 import 'package:fix_masters/providers/admin_provider.dart';
 import 'package:fix_masters/providers/worker_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 class AddNewLocationPage extends StatefulWidget {
@@ -85,7 +86,7 @@ class _AddNewLocationPageState extends State<AddNewLocationPage> {
               },
             ),
             SizedBox(
-              width: 20,
+              width: 20.w,
             ),
             ElevatedButton(
               child: Text("Add"),

@@ -97,7 +97,7 @@ class _HomePageState extends State<HomePage> {
             // sliver app bar
             SliverAppBar(
               automaticallyImplyLeading: false,
-              expandedHeight: 50,
+              expandedHeight: 50.h,
               backgroundColor: themeProvider.themeModeType == ThemeModeType.Dark
                   ? Colors.black26
                   : Colors.white,
@@ -105,11 +105,11 @@ class _HomePageState extends State<HomePage> {
               floating: true,
 
               title: Padding(
-                padding: EdgeInsets.only(left: 10.0),
+                padding: EdgeInsets.only(left: 10.0.w),
                 child: Container(
                   child: Card(
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
+                        borderRadius: BorderRadius.circular(10.r)),
                     elevation: 10,
                     child: TextFormField(
                       onChanged: (value) {
@@ -123,8 +123,8 @@ class _HomePageState extends State<HomePage> {
                         enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.r),
                             borderSide: BorderSide(color: Colors.grey)),
-                        contentPadding:
-                            EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                        contentPadding: EdgeInsets.symmetric(
+                            horizontal: 20.w, vertical: 5.h),
                         focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.r),
                             borderSide: BorderSide(color: Colors.grey)),
@@ -184,22 +184,22 @@ class _HomePageState extends State<HomePage> {
                             },
                           )
                         : Container(
-                            height: 150,
-                            width: 400,
+                            height: 150.h,
+                            width: 400.w,
                             child: CarouselSlider(
                                 items: _workerProvider.carouselSliderimg
                                     .map((item) => Container(
                                           decoration: BoxDecoration(
                                             borderRadius:
-                                                BorderRadius.circular(20),
+                                                BorderRadius.circular(20.r),
                                           ),
-                                          width: 400,
-                                          height: 200,
+                                          width: 400.w,
+                                          height: 200.h,
                                           padding: EdgeInsets.symmetric(
-                                              horizontal: 10),
+                                              horizontal: 10.w),
                                           child: ClipRRect(
                                             borderRadius:
-                                                BorderRadius.circular(20),
+                                                BorderRadius.circular(20.r),
                                             child: Image.network(
                                               item,
                                               fit: BoxFit.fitWidth,
@@ -228,12 +228,11 @@ class _HomePageState extends State<HomePage> {
                                     : _workerProvider.carouselSliderimg.length,
                             position: _dotPosition,
                             decorator: DotsDecorator(
-                              activeColor: btncolor,
-                              color: btncolor.withOpacity(0.5),
-                              spacing: EdgeInsets.all(2),
-                              activeSize: Size(8, 8),
-                              size: Size(6, 6),
-                            ),
+                                activeColor: btncolor,
+                                color: btncolor.withOpacity(0.5),
+                                spacing: EdgeInsets.all(2),
+                                activeSize: Size(8.w, 8.h),
+                                size: Size(6.w, 6.h)),
                           )
                         : SizedBox(),
                     _searchQuery.isEmpty
@@ -256,7 +255,7 @@ class _HomePageState extends State<HomePage> {
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(15),
+                                      borderRadius: BorderRadius.circular(15.r),
                                       color: Colors.blueGrey,
                                       image: DecorationImage(
                                         image: NetworkImage(
@@ -274,8 +273,9 @@ class _HomePageState extends State<HomePage> {
                                           decoration: BoxDecoration(
                                             color: btncolor,
                                             borderRadius: BorderRadius.only(
-                                              bottomRight: Radius.circular(15),
-                                              bottomLeft: Radius.circular(15),
+                                              bottomRight:
+                                                  Radius.circular(15.r),
+                                              bottomLeft: Radius.circular(15.r),
                                             ),
                                           ),
                                           child: Center(
@@ -302,7 +302,7 @@ class _HomePageState extends State<HomePage> {
                         ? Column(
                             children: [
                               Padding(
-                                padding: EdgeInsets.symmetric(vertical: 8.0),
+                                padding: EdgeInsets.symmetric(vertical: 8.0.h),
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -311,14 +311,14 @@ class _HomePageState extends State<HomePage> {
                                       "Popular",
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 20),
+                                          fontSize: 20.sp),
                                     ),
                                     Icon(Icons.arrow_forward)
                                   ],
                                 ),
                               ),
                               Container(
-                                height: 180,
+                                height: 180.h,
                                 child: ListView.builder(
                                     scrollDirection: Axis.horizontal,
                                     itemCount:
@@ -327,10 +327,10 @@ class _HomePageState extends State<HomePage> {
                                       final indx =
                                           _workerProvider.popularList[index];
                                       return Padding(
-                                        padding: EdgeInsets.only(right: 20.0),
+                                        padding: EdgeInsets.only(right: 20.0.w),
                                         child: ClipRRect(
                                           borderRadius: BorderRadius.all(
-                                              Radius.circular(20)),
+                                              Radius.circular(20.r)),
                                           child: InkWell(
                                             onTap: () {
                                               Navigator.pushNamed(context,
@@ -363,191 +363,6 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      // body: Container(
-      //   padding: EdgeInsets.symmetric(horizontal: 10),
-      //   width: double.infinity,
-      //   child: SingleChildScrollView(
-      //     child: Column(
-      //       mainAxisAlignment: MainAxisAlignment.center,
-      //       crossAxisAlignment: CrossAxisAlignment.center,
-      //       children: [
-      //         Container(
-      //           child: Card(
-      //             shape: RoundedRectangleBorder(
-      //                 borderRadius: BorderRadius.circular(20)),
-      //             elevation: 10,
-      //             child: TextFormField(
-      //               onChanged: (value) {
-      //                 setState(() {
-      //                   _searchQuery = value;
-      //                 });
-      //               },
-      //               decoration: InputDecoration(
-      //                   fillColor: Colors.grey.shade200,
-      //                   filled: true,
-      //                   enabledBorder: OutlineInputBorder(
-      //                       borderRadius: BorderRadius.circular(15.r),
-      //                       borderSide: BorderSide(color: Colors.grey)),
-      //                   contentPadding:
-      //                       EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-      //                   focusedBorder: OutlineInputBorder(
-      //                       borderRadius: BorderRadius.circular(15.r),
-      //                       borderSide: BorderSide(color: Colors.grey)),
-      //                   suffixIcon: Icon(
-      //                     Icons.search,
-      //                     color: Colors.black,
-      //                   ),
-      //                   hintText: 'Search Need Your Service',
-      //                   hintStyle: TextStyle(
-      //                       color: themeProvider.themeModeType ==
-      //                               ThemeModeType.Dark
-      //                           ? Colors.black54
-      //                           : Colors.grey)),
-      //             ),
-      //           ),
-      //         ),
-      //         SizedBox(
-      //           height: 10,
-      //         ),
-      //         _searchQuery.isNotEmpty
-      //             ? ListView.builder(
-      //                 shrinkWrap: true,
-      //                 itemCount: _searchQuery.isEmpty
-      //                     ? 0
-      //                     : _workerProvider.typeAndImageList.length,
-      //                 itemBuilder: (context, index) {
-      //                   final worker = _workerProvider.typeAndImageList[index];
-      //                   if (worker.name!
-      //                       .toLowerCase()
-      //                       .contains(_searchQuery.toLowerCase())) {
-      //                     return InkWell(
-      //                       onTap: () {
-      //                         Navigator.pushNamed(
-      //                             context, ShowWorkerPage.routeName,
-      //                             arguments: [
-      //                               worker.name,
-      //                             ]);
-      //                       },
-      //                       child: Card(
-      //                         child: ListTile(
-      //                           leading: CircleAvatar(
-      //                             backgroundImage: NetworkImage(
-      //                                 "${worker.imageDownloadUrl}"),
-      //                           ),
-      //                           title: Text("${worker.name}"),
-      //                         ),
-      //                       ),
-      //                     );
-      //                   } else {
-      //                     return Container();
-      //                   }
-      //                 },
-      //               )
-      //             : AspectRatio(
-      //                 aspectRatio: 3.5,
-      //                 child: CarouselSlider(
-      //                     items: _workerProvider.carouselSliderimg
-      //                         .map((item) => Padding(
-      //                               padding: const EdgeInsets.only(
-      //                                   left: 3, right: 3),
-      //                               child: Container(
-      //                                 decoration: BoxDecoration(
-      //                                     image: DecorationImage(
-      //                                         image: NetworkImage(item),
-      //                                         fit: BoxFit.fitWidth)),
-      //                               ),
-      //                             ))
-      //                         .toList(),
-      //                     options: CarouselOptions(
-      //                         autoPlay: true,
-      //                         enlargeCenterPage: true,
-      //                         viewportFraction: 0.8,
-      //                         enlargeStrategy: CenterPageEnlargeStrategy.height,
-      //                         onPageChanged: (val, carouselPageChangedReason) {
-      //                           setState(() {
-      //                             _dotPosition = val;
-      //                           });
-      //                         })),
-      //               ),
-      //         SizedBox(
-      //           height: 10.h,
-      //         ),
-      //         _searchQuery.isEmpty
-      //             ? DotsIndicator(
-      //                 dotsCount: _workerProvider.carouselSliderimg.length == 0
-      //                     ? 1
-      //                     : _workerProvider.carouselSliderimg.length,
-      //                 position: _dotPosition,
-      //                 decorator: DotsDecorator(
-      //                   activeColor: btncolor,
-      //                   color: btncolor.withOpacity(0.5),
-      //                   spacing: EdgeInsets.all(2),
-      //                   activeSize: Size(8, 8),
-      //                   size: Size(6, 6),
-      //                 ),
-      //               )
-      //             : SizedBox(),
-      //         _searchQuery.isEmpty
-      //             ? Container(
-      //                 width: double.infinity,
-      //                 child: GridView.builder(
-      //                   physics: NeverScrollableScrollPhysics(),
-      //                   shrinkWrap: true,
-      //                   itemCount: _workerProvider.typeAndImageList.length,
-      //                   itemBuilder: (context, index) {
-      //                     return InkWell(
-      //                       onTap: () {
-      //                         Navigator.pushNamed(
-      //                             context, ShowWorkerPage.routeName,
-      //                             arguments: [
-      //                               _workerProvider.typeAndImageList[index].name
-      //                             ]);
-      //                       },
-      //                       child: Container(
-      //                         decoration: BoxDecoration(
-      //                           borderRadius: BorderRadius.circular(15),
-      //                           color: Colors.blueGrey,
-      //                           image: DecorationImage(
-      //                             image: NetworkImage(
-      //                               _workerProvider.typeAndImageList[index]
-      //                                   .imageDownloadUrl!,
-      //                             ),
-      //                             fit: BoxFit.cover,
-      //                           ),
-      //                         ),
-      //                         child: Column(
-      //                           mainAxisAlignment: MainAxisAlignment.end,
-      //                           children: [
-      //                             Container(
-      //                               decoration: BoxDecoration(
-      //                                 color: btncolor,
-      //                                 borderRadius: BorderRadius.only(
-      //                                   bottomRight: Radius.circular(15),
-      //                                   bottomLeft: Radius.circular(15),
-      //                                 ),
-      //                               ),
-      //                               child: Center(
-      //                                   child: Text(_workerProvider
-      //                                       .typeAndImageList[index].name!)),
-      //                             ),
-      //                           ],
-      //                         ),
-      //                       ),
-      //                     );
-      //                   },
-      //                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-      //                     crossAxisSpacing: 10,
-      //                     mainAxisSpacing: 10,
-      //                     crossAxisCount: 3,
-      //                     childAspectRatio: 1.5,
-      //                   ),
-      //                 ),
-      //               )
-      //             : SizedBox()
-      //       ],
-      //     ),
-      //   ),
-      // ),
     );
   }
 }

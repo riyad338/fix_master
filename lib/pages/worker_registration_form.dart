@@ -105,21 +105,22 @@ class _WorkerRegPageState extends State<WorkerRegPage> {
                     child: Column(
                       children: [
                         Container(
-                          width: 100,
-                          height: 100,
+                          width: 100.w,
+                          height: 100.h,
                           decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey, width: 2)),
+                              border:
+                                  Border.all(color: Colors.grey, width: 2.w)),
                           child: _imagePath == null
                               ? Image.asset(
                                   'images/noimage.jpg',
-                                  width: 100,
-                                  height: 100,
+                                  width: 100.w,
+                                  height: 100.h,
                                   fit: BoxFit.cover,
                                 )
                               : Image.file(
                                   File(_imagePath!),
-                                  width: 100,
-                                  height: 100,
+                                  width: 100.w,
+                                  height: 100.h,
                                   fit: BoxFit.cover,
                                 ),
                         ),
@@ -139,7 +140,7 @@ class _WorkerRegPageState extends State<WorkerRegPage> {
                               },
                             ),
                             SizedBox(
-                              width: 10,
+                              width: 10.w,
                             ),
                             ElevatedButton(
                               style: ElevatedButton.styleFrom(
@@ -177,7 +178,7 @@ class _WorkerRegPageState extends State<WorkerRegPage> {
                     ),
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 10.h,
                   ),
                   Card(
                     elevation: 5,
@@ -200,7 +201,7 @@ class _WorkerRegPageState extends State<WorkerRegPage> {
                     ),
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 10.h,
                   ),
                   Card(
                     elevation: 5,
@@ -227,6 +228,7 @@ class _WorkerRegPageState extends State<WorkerRegPage> {
                   Card(
                     elevation: 5,
                     child: DropdownButtonFormField<String>(
+                      menuMaxHeight: 200.h,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                       ),
@@ -260,6 +262,7 @@ class _WorkerRegPageState extends State<WorkerRegPage> {
                   Card(
                     elevation: 5,
                     child: DropdownButtonFormField<String>(
+                      menuMaxHeight: 200.h,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                       ),
@@ -288,7 +291,7 @@ class _WorkerRegPageState extends State<WorkerRegPage> {
                     ),
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 10.h,
                   ),
                   Card(
                     elevation: 10,
@@ -314,20 +317,20 @@ class _WorkerRegPageState extends State<WorkerRegPage> {
                     ),
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 10.h,
                   ),
                   Container(
                     width: double.infinity,
-                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    padding: EdgeInsets.symmetric(horizontal: 20.w),
                     child: Card(
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)),
+                          borderRadius: BorderRadius.circular(20.r)),
                       elevation: 5,
                       child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                              minimumSize: Size(double.infinity, 50),
+                              minimumSize: Size(double.infinity, 50.h),
                               shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20)),
+                                  borderRadius: BorderRadius.circular(20.r)),
                               backgroundColor: btncolor),
                           onPressed: () {
                             _saveWorkerDetails();

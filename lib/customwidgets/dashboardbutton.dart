@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DashboardButton extends StatelessWidget {
   final String label;
@@ -18,10 +19,11 @@ class DashboardButton extends StatelessWidget {
         alignment: Alignment.center,
         child: Text(
           label,
-          style: TextStyle(color: Colors.white, letterSpacing: 2, fontSize: 16),
+          style:
+              TextStyle(color: Colors.white, letterSpacing: 2, fontSize: 16.sp),
         ),
-        decoration:
-            BoxDecoration(color: color, borderRadius: BorderRadius.circular(8)),
+        decoration: BoxDecoration(
+            color: color, borderRadius: BorderRadius.circular(8.r)),
       ),
     );
   }
