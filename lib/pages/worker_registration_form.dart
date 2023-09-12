@@ -14,6 +14,7 @@ import 'package:fix_masters/providers/worker_provider.dart';
 import 'package:fix_masters/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
@@ -28,6 +29,7 @@ class WorkerRegPage extends StatefulWidget {
 }
 
 class _WorkerRegPageState extends State<WorkerRegPage> {
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
   late WorkerProvider _workerProvider;
   final _formKey = GlobalKey<FormState>();
   String? _workLocation;
@@ -84,11 +86,13 @@ class _WorkerRegPageState extends State<WorkerRegPage> {
           title: const Text('Add to Worker'),
           actions: [
             IconButton(
-                onPressed: () {
-                  AuthService.logout().then((_) =>
+                onPressed: () async {
+                  showToastMsg("Logout Successfully");
+                  await AuthService.logout().then((_) =>
                       Navigator.pushReplacementNamed(
                           context, LoginPage.routeName));
-                  showToastMsg("Logout Successfully");
+
+                  await _googleSignIn.signOut();
                 },
                 icon: Icon(Icons.logout))
           ],
