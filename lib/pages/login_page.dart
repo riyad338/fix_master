@@ -52,6 +52,30 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: themeProvider.themeModeType == ThemeModeType.Dark
+            ? Colors.black12
+            : Colors.white70,
+        elevation: 0,
+        actions: [
+          Icon(
+            Icons.dark_mode,
+            color: themeProvider.themeModeType == ThemeModeType.Dark
+                ? Colors.white
+                : Colors.black,
+          ),
+          Switch(
+            activeColor: Colors.white,
+            inactiveThumbColor: Colors.black,
+            value: themeProvider.themeModeType == ThemeModeType.Dark,
+            onChanged: (value) {
+              setState(() {
+                themeProvider.toggleTheme();
+              });
+            },
+          ),
+        ],
+      ),
       body: Container(
         child: Center(
             child: Form(

@@ -4,7 +4,10 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fix_masters/admin/add_location.dart';
 import 'package:fix_masters/admin/add_new_type.dart';
 import 'package:fix_masters/admin/dashboard.dart';
+import 'package:fix_masters/pages/Filtered_result_page.dart';
+import 'package:fix_masters/pages/all_services_page.dart';
 import 'package:fix_masters/pages/email_verification_page.dart';
+import 'package:fix_masters/pages/filter_page.dart';
 import 'package:fix_masters/pages/google_map.dart';
 import 'package:fix_masters/pages/home_page.dart';
 import 'package:fix_masters/pages/launcher_page.dart';
@@ -27,6 +30,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp();
   FirebaseMessaging.instance.getInitialMessage();
   FirebaseMessaging.onMessage.listen((message) {
@@ -74,7 +78,7 @@ class MyApp extends StatelessWidget {
                 return MaterialApp(
                   debugShowCheckedModeBanner: false,
                   title: 'Flutter Demo',
-                  theme: themeProvider.themeData,
+                  theme: Provider.of<ThemeProvider>(context).themeData,
                   // theme: ThemeData(
                   //   appBarTheme: AppBarTheme(color: Colors.blueAccent.shade200),
                   //   textTheme: GoogleFonts.robotoTextTheme(),
@@ -100,6 +104,10 @@ class MyApp extends StatelessWidget {
                     UserProfileandUpdatePage.routeName: (context) =>
                         UserProfileandUpdatePage(),
                     PhoneAuthPage.routeName: (context) => PhoneAuthPage(),
+                    DropDownPage.routeName: (context) => DropDownPage(),
+                    FilteredResultPage.routeName: (context) =>
+                        FilteredResultPage(),
+                    AllServicesPage.routeName: (context) => AllServicesPage(),
                   },
                 );
               }));

@@ -4,6 +4,8 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fix_masters/auth/auth_service.dart';
 import 'package:fix_masters/customwidgets/drawer.dart';
+import 'package:fix_masters/pages/all_services_page.dart';
+import 'package:fix_masters/pages/filter_page.dart';
 import 'package:fix_masters/pages/login_page.dart';
 import 'package:fix_masters/pages/show_worker_page.dart';
 import 'package:fix_masters/pages/user_profile_and_update.dart';
@@ -45,7 +47,6 @@ class _HomePageState extends State<HomePage> {
     super.didChangeDependencies();
   }
 
-  @override
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
@@ -106,35 +107,62 @@ class _HomePageState extends State<HomePage> {
 
               title: Padding(
                 padding: EdgeInsets.only(left: 10.0.w),
-                child: Container(
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.r)),
-                    elevation: 10,
-                    child: TextFormField(
-                      onChanged: (value) {
-                        setState(() {
-                          _searchQuery = value;
-                        });
-                      },
-                      decoration: InputDecoration(
-                        fillColor: Colors.grey.shade200,
-                        filled: false,
-                        enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.r),
-                            borderSide: BorderSide(color: Colors.grey)),
-                        contentPadding: EdgeInsets.symmetric(
-                            horizontal: 20.w, vertical: 5.h),
-                        focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.r),
-                            borderSide: BorderSide(color: Colors.grey)),
-                        suffixIcon: Icon(
-                          Icons.search,
+                child: Row(
+                  children: [
+                    Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.r)),
+                      elevation: 10,
+                      child: Container(
+                        width: 300.w,
+                        child: TextFormField(
+                          onChanged: (value) {
+                            setState(() {
+                              _searchQuery = value;
+                            });
+                          },
+                          decoration: InputDecoration(
+                            fillColor: Colors.grey.shade200,
+                            filled: false,
+                            enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.r),
+                                borderSide: BorderSide(color: Colors.grey)),
+                            contentPadding: EdgeInsets.symmetric(
+                                horizontal: 20.w, vertical: 5.h),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10.r),
+                                borderSide: BorderSide(color: Colors.grey)),
+                            suffixIcon: Icon(
+                              Icons.search,
+                            ),
+                            hintText: 'Search Need Your Service',
+                          ),
                         ),
-                        hintText: 'Search Need Your Service',
                       ),
                     ),
-                  ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 5.0.w),
+                      child: Card(
+                        elevation: 10,
+                        child: Container(
+                          width: 50.w,
+                          child: IconButton(
+                              onPressed: () {
+                                Navigator.pushNamed(
+                                    context, DropDownPage.routeName);
+                              },
+                              icon: Icon(
+                                Icons.filter_list,
+                                color: themeProvider.themeModeType ==
+                                        ThemeModeType.Dark
+                                    ? Colors.white
+                                    : Colors.black,
+                                size: 30,
+                              )),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               // flexibleSpace: FlexibleSpaceBar(
@@ -200,9 +228,16 @@ class _HomePageState extends State<HomePage> {
                                           child: ClipRRect(
                                             borderRadius:
                                                 BorderRadius.circular(20.r),
-                                            child: Image.network(
-                                              item,
-                                              fit: BoxFit.fitWidth,
+                                            child: CachedNetworkImage(
+                                              imageUrl: item,
+                                              fit: BoxFit.cover,
+                                              placeholder: (context, url) =>
+                                                  SpinKitFadingCircle(
+                                                color: Colors.greenAccent,
+                                              ),
+                                              errorWidget:
+                                                  (context, url, error) =>
+                                                      Icon(Icons.error),
                                             ),
                                           ),
                                         ))
@@ -236,66 +271,104 @@ class _HomePageState extends State<HomePage> {
                           )
                         : SizedBox(),
                     _searchQuery.isEmpty
-                        ? Container(
-                            width: double.infinity,
-                            child: GridView.builder(
-                              physics: NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              itemCount:
-                                  _workerProvider.typeAndImageList.length,
-                              itemBuilder: (context, index) {
-                                return InkWell(
-                                  onTap: () {
-                                    Navigator.pushNamed(
-                                        context, ShowWorkerPage.routeName,
-                                        arguments: [
-                                          _workerProvider
-                                              .typeAndImageList[index].name
-                                        ]);
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(15.r),
-                                      color: Colors.blueGrey,
-                                      image: DecorationImage(
-                                        image: NetworkImage(
-                                          _workerProvider
-                                              .typeAndImageList[index]
-                                              .imageDownloadUrl!,
-                                        ),
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.end,
+                        ? Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Services",
+                                    style: TextStyle(
+                                        fontSize: 20.sp,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      Navigator.pushNamed(
+                                          context, AllServicesPage.routeName);
+                                    },
+                                    child: Row(
                                       children: [
-                                        Container(
-                                          decoration: BoxDecoration(
-                                            color: btncolor,
-                                            borderRadius: BorderRadius.only(
-                                              bottomRight:
-                                                  Radius.circular(15.r),
-                                              bottomLeft: Radius.circular(15.r),
-                                            ),
-                                          ),
-                                          child: Center(
-                                              child: Text(_workerProvider
-                                                  .typeAndImageList[index]
-                                                  .name!)),
+                                        Text(
+                                          "See all",
                                         ),
+                                        Icon(
+                                          Icons.arrow_forward,
+                                          size: 17,
+                                        )
                                       ],
                                     ),
                                   ),
-                                );
-                              },
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisSpacing: 10,
-                                mainAxisSpacing: 10,
-                                crossAxisCount: 3,
-                                childAspectRatio: 1.5,
+                                ],
                               ),
-                            ),
+                              SizedBox(
+                                height: 8.h,
+                              ),
+                              Container(
+                                width: double.infinity,
+                                child: GridView.builder(
+                                  physics: NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemCount: 9,
+                                  itemBuilder: (context, index) {
+                                    return InkWell(
+                                      onTap: () {
+                                        Navigator.pushNamed(
+                                            context, ShowWorkerPage.routeName,
+                                            arguments: [
+                                              _workerProvider
+                                                  .typeAndImageList[index].name
+                                            ]);
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(15.r),
+                                          color: Colors.blueGrey,
+                                          image: DecorationImage(
+                                            image: NetworkImage(
+                                              _workerProvider
+                                                  .typeAndImageList[index]
+                                                  .imageDownloadUrl!,
+                                            ),
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                color: btncolor,
+                                                borderRadius: BorderRadius.only(
+                                                  bottomRight:
+                                                      Radius.circular(15.r),
+                                                  bottomLeft:
+                                                      Radius.circular(15.r),
+                                                ),
+                                              ),
+                                              child: Center(
+                                                  child: Text(_workerProvider
+                                                      .typeAndImageList[index]
+                                                      .name!)),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisSpacing: 10,
+                                    mainAxisSpacing: 10,
+                                    crossAxisCount: 3,
+                                    childAspectRatio: 1.5,
+                                  ),
+                                ),
+                              ),
+                            ],
                           )
                         : SizedBox(),
                     _searchQuery.isEmpty

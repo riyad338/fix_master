@@ -7,6 +7,7 @@ import 'package:fix_masters/utils/helper_function.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_share/flutter_share.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -48,6 +49,14 @@ class _MainDrawerState extends State<MainDrawer> {
 
   @override
   Widget build(BuildContext context) {
+    Future<void> share() async {
+      await FlutterShare.share(
+          title: 'Fix Master',
+          linkUrl:
+              'https://drive.google.com/drive/u/0/folders/19PK88ujl0v1B1iDwY2nnRHH3_Aw_5Rfk',
+          chooserTitle: 'Example Chooser Title');
+    }
+
     final themeProvider = Provider.of<ThemeProvider>(context);
     return Drawer(
       child: Column(children: [
@@ -87,7 +96,9 @@ class _MainDrawerState extends State<MainDrawer> {
           title: Text('My Profile'),
         ),
         ListTile(
-          onTap: () {},
+          onTap: () async {
+            share();
+          },
           leading: Icon(Icons.share),
           title: Text('Share'),
         ),
@@ -121,10 +132,10 @@ class _MainDrawerState extends State<MainDrawer> {
         ListTile(
           onTap: () async {
             showToastMsg("Logout Successfully");
+            await _googleSignIn.signOut().then((_) =>
+                Navigator.pushReplacementNamed(context, LoginPage.routeName));
             await AuthService.logout().then((_) =>
                 Navigator.pushReplacementNamed(context, LoginPage.routeName));
-
-            await _googleSignIn.signOut();
           },
           leading: Icon(Icons.logout),
           title: Text('Logout'),
