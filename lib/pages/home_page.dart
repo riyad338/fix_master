@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fix_masters/auth/auth_service.dart';
+import 'package:fix_masters/customwidgets/bottom_sheet.dart';
 import 'package:fix_masters/customwidgets/drawer.dart';
 import 'package:fix_masters/pages/all_services_page.dart';
 import 'package:fix_masters/pages/filter_page.dart';
@@ -285,8 +286,19 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      Navigator.pushNamed(
-                                          context, AllServicesPage.routeName);
+                                      showModalBottomSheet(
+                                        barrierColor: Colors.black87,
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.only(
+                                                topRight: Radius.circular(20),
+                                                topLeft: Radius.circular(20))),
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return BottomSheetPage();
+                                        },
+                                      );
+                                      // Navigator.pushNamed(
+                                      //     context, AllServicesPage.routeName);
                                     },
                                     child: Row(
                                       children: [
@@ -294,8 +306,8 @@ class _HomePageState extends State<HomePage> {
                                           "See all",
                                         ),
                                         Icon(
-                                          Icons.arrow_forward,
-                                          size: 17,
+                                          Icons.keyboard_arrow_down,
+                                          size: 25,
                                         )
                                       ],
                                     ),

@@ -63,6 +63,8 @@ dependencies:
   shared_preferences:
   google_sign_in:
   flutter_share:
+  video_player:
+  flick_video_player:
 dev_dependencies:
   flutter_test:
     sdk: flutter
